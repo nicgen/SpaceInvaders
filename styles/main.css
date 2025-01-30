@@ -1,0 +1,37 @@
+#game-container {
+    width: 800px;
+    height: 600px;
+    position: relative;
+    background: black;
+    overflow: hidden;
+    margin: 0 auto;
+}
+
+.player {
+    width: 50px;
+    height: 50px;
+    position: absolute;
+    background: green;
+}
+
+.enemy {
+    width: 40px;
+    height: 40px;
+    position: absolute;
+    background: red;
+}
+
+.projectile {
+    width: 5px;
+    height: 15px;
+    position: absolute;
+    background: white;
+}
+
+#score {
+    color: white;
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    font-family: Arial;
+}

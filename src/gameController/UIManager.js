@@ -50,6 +50,11 @@ export default class UIManager {
         resumeButton.onclick = () => this.game.resumeGame();
         pauseMenu.appendChild(resumeButton);
 
+        const restartButton = document.createElement('button');
+        restartButton.textContent = 'Restart Game';
+        restartButton.onclick = () => this.game.restartGame();
+        pauseMenu.appendChild(restartButton);
+
         document.body.appendChild(pauseMenu);
         this.pauseMenu = pauseMenu;
     }
@@ -69,12 +74,17 @@ export default class UIManager {
         gameOverScreen.style.textAlign = 'center';
 
         const title = document.createElement('h1');
-        title.textContent = 'GAme Over';
+        title.textContent = 'Game Over';
         gameOverScreen.appendChild(title);
 
         const finalScore = document.createElement('p');
         finalScore.id = 'finalScore';
         gameOverScreen.appendChild(finalScore);
+
+        const restartButton = document.createElement('button');
+        restartButton.textContent.id = 'restart Game';
+        restartButton.onclick = () => this.game.restartGame;
+        gameOverScreen.appendChild(restartButton);
 
         const quitButton = document.createElement('button');
         quitButton.textContent = 'Quit';

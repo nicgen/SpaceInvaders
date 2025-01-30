@@ -1,14 +1,47 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Space Invaders</title>
     <link rel="stylesheet" href="styles/main.css">
 </head>
+
 <body>
+<!-- Game Scene -->
 <div id="game-container">
-    <div id="score">Score: <span id="score-value">0</span></div>
+
+    <!-- UI Elements -->
+    <div id="ui">
+        <!-- Player -->
+        <div id="ui-player">
+            <div id="ui-score">
+                <span>Score: <span id="ui-score-value">0</span></span>
+            </div>
+            <div id="ui-lives">
+                <span>Lives: <span id="ui-lives-value">3</span></span>
+            </div>
+            <div id="ui-power-up">
+                <span>Power-Up: <span id="ui-power-up-value">None</span></span>
+            </div>
+            <div id="ui-level">
+                <span>Level: <span id="ui-level-value">1</span></span>
+            </div>
+        </div>
+        <!-- FPS Counter -->
+        <div id="fps-counter">
+            <span>FPS: <span id="fps-value">0</span></span>
+        </div>
+        <!-- Menu -->
+        <div id="ui-menu">
+            <button id="ui-menu-button">Menu</button>
+        </div>
+    </div>
+
 </div>
 
-</body>
 <script src="src/game.js"></script>
+
+</body>
 </html>

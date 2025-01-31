@@ -20,3 +20,8 @@ EventListeners : window can lsiten for events at a global lvl :
     - mouse events (clisck, mousemove)
     - resize events (resize)
 */
+
+/*
+using default when declaring a class allows to import the class directly in another file whithout {}
+in this exemple : import InputHandler from '../utils/inputHandler.js';
+*/

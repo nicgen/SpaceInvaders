@@ -24,6 +24,14 @@ export default class StateManager {
     }
 
     isRunning(){
-        this.state === GAME_STATES.RUNNING;
+        return this.state === GAME_STATES.RUNNING;
+    }
+
+    isPaused() {
+        return this.state === GAME_STATES.PAUSED;
+    }
+
+    isGameOver() {
+        return this.state === GAME_STATES.GAME_OVER;
     }
 }

@@ -1,4 +1,4 @@
-const GAME_STATES = {
+const gameState = {
     MENU: 'menu',
     RUNNING: 'running',
     PAUSED: 'paused',
@@ -7,31 +7,31 @@ const GAME_STATES = {
 
 export default class StateManager {
     constructor() {
-        this.state = GAME_STATES.MENU;
+        this.state = gameState.MENU;
         this.score = 0;
     }
 
     setRunning(){
-        this.state = GAME_STATES.RUNNING;
+        this.state = gameState.RUNNING;
     }
 
     setPaused() {
-        this.state = GAME_STATES.PAUSED;
+        this.state = gameState.PAUSED;
     }
 
     setGameOver() {
-        this.state = GAME_STATES.GAME_OVER;
+        this.state = gameState.GAME_OVER;
     }
 
     isRunning(){
-        return this.state === GAME_STATES.RUNNING;
+        return this.state === gameState.RUNNING;
     }
 
     isPaused() {
-        return this.state === GAME_STATES.PAUSED;
+        return this.state === gameState.PAUSED;
     }
 
     isGameOver() {
-        return this.state === GAME_STATES.GAME_OVER;
+        return this.state === gameState.GAME_OVER;
     }
 }

@@ -3,7 +3,7 @@ export function createMenu(startGame) {
     menu.id = "menuScreen";
 
     const title = document.createElement("h1");
-    title.textContent = "Flappy Bird Game";
+    title.textContent = "SpaceInvadors";
     menu.appendChild(title);
 
     const startButton = document.createElement("button");
@@ -30,6 +30,7 @@ export function createPauseMenu(resumeGame, restartGame) {
 
     const title = document.createElement("h1");
     title.textContent = "Game Paused";
+    title.style.color = "white";
     pauseMenu.appendChild(title);
 
     const resumeButton = document.createElement("button");

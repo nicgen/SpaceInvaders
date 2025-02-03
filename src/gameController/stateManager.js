@@ -3,12 +3,6 @@ const gameState = {
     RUNNING: 'running',
     PAUSED: 'paused',
     GAME_OVER: 'gameover',
-    LEVEL: 1,
-    SCORE: 0,
-    MULTIPLIER: 1,
-    DIFFICULTY: 1,
-    POWER_UPS: new Set(),
-    WIND_FORCE: 0
 };
 
 export default class StateManager {
@@ -40,4 +34,8 @@ export default class StateManager {
     isGameOver() {
         return this.state === gameState.GAME_OVER;
     }
+
+    resetGame() {
+        this.state = gameState.MENU;
+    } 
 }

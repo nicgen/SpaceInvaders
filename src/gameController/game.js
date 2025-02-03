@@ -1,7 +1,6 @@
 import {createMenu, createPauseMenu, createGameOverScreen} from './menu.js';
 import StateManager from './stateManager.js';
-import { Player } from '../objects/player.js';
-import { Enemy } from '../objects/enemy.js';
+import Ship  from '../objects/player.js';
 import InputHandler from '../utils/inputHandler.js';
 import FPSManager from './FPSManager.js';
 
@@ -15,7 +14,8 @@ export default class Game {
         this.fpsManager = new FPSManager(60, 80);
         this.inputHandler = new InputHandler();
 
-        this.player = null;
+        this.ship = new Ship(this.gameContainer, this);
+        this.beams = [];
         this.enemy = null;
 
         this.menuScreen = createMenu(() => this.startGame());
@@ -31,6 +31,17 @@ export default class Game {
 
     //game logic for key presse
     handleKeyPress() {
+        if (this.inputHandler.isKeyPressed("ArrowLeft") && this.stateManager.isRunning()){
+            this.ship.moveLeft();
+        } else if (this.inputHandler.isKeyPressed("ArrowRight") && this.stateManager.isRunning()){
+            this.ship.moveRight();
+        }
+        if (this.inputHandler.isKeyPressed(" ") && this.stateManager.isRunning() && this.ship.canShoot) {
+            this.ship.shoot();
+            this.ship.canShoot = false;
+            setTimeout(() => this.ship.canShoot = true, this.ship.shootCooldown);
+
+        }
         if (this.inputHandler.isKeyJustPressed("Escape")) {
             if (this.stateManager.isRunning()) {
                 this.pauseGame();
@@ -62,29 +73,31 @@ export default class Game {
         const dt = this.fpsManager.update(timestamp);
 
         if (this.running && dt > 0) {
-            /*
             this.updateGame();
             this.renderGame();
-            */
         }
 
         this.handleKeyPress();
         requestAnimationFrame((ts) => this.gameLoop(ts));
     }
 
-    /* // player/enemies movement mechanics
-    udpateGame() {
-        this.player.update(this.inputHandler.keys);
-        this.enemy.update();
-
-        //collision logic
+    // player/enemies movement mechanics
+    updateGame() {
+        this.beams.forEach((beam, index) => {
+            beam.update();
+            
+            if (!beam.beam.parentElement){
+                this.beams.splice(index, 1);
+            }
+        });
     }
+    
 
     renderGame() {
-        this.player.render();
-        thie.enemy.render();
+        this.ship.render();
+        this.beams.forEach((beam) => beam.render());
     }
- */
+ 
     pauseGame() {
         this.running = false;
         this.stateManager.setPaused();

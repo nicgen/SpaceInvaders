@@ -2,7 +2,13 @@ const gameState = {
     MENU: 'menu',
     RUNNING: 'running',
     PAUSED: 'paused',
-    GAME_OVER: 'gameover'
+    GAME_OVER: 'gameover',
+    LEVEL: 1,
+    SCORE: 0,
+    MULTIPLIER: 1,
+    DIFFICULTY: 1,
+    POWER_UPS: new Set(),
+    WIND_FORCE: 0
 };
 
 export default class StateManager {

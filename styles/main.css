@@ -1,0 +1,29 @@
+body{
+    background-color: black;
+    overflow: hidden;
+}
+
+#game-container {
+    width: 800px;
+    height: 800px;
+    background-color: #111;
+    position: relative;
+    margin: auto;
+    border: 2px solid white;
+}
+
+.ship {
+    width: 50px;
+    height: 30px;
+    background-color: rgb(50, 223, 87);
+    position: absolute;
+    bottom: 1px;
+    
+}
+
+.beam {
+    position: absolute;
+    width: 5px;
+    height: 15px;
+    background-color: red;
+}

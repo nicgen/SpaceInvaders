@@ -1,5 +1,4 @@
 import {createMenu, createPauseMenu, createGameOverScreen} from './menu.js';
-import { MENU_STYLE } from '../utils/constants.js';
 import StateManager from './stateManager.js';
 import Ship  from '../objects/player.js';
 import InputHandler from '../utils/inputHandler.js';
@@ -12,7 +11,7 @@ export default class Game {
         this.score = 0;
 
         this.gameContainer = document.getElementById('game-container');
-        this.fpsManager = new FPSManager(60, 80);
+        this.fpsManager = new FPSManager();
         this.inputHandler = new InputHandler();
 
         this.ship = new Ship(this.gameContainer, this);
@@ -22,13 +21,16 @@ export default class Game {
         this.menuScreen = createMenu(() => this.startGame());
         this.pauseMenu = createPauseMenu(
             () => this.resumeGame(),
-            () => this.restartGame()
+            () => this.restartGame(),
+            () => this.toggleFPSDisplay()
         );
         this.gameOverScreen = createGameOverScreen(
             () => this.restartGame(),
             () => window.location.reload()
         );
         this.menuScreen.style.display = "block"; // Initially show the menu
+
+        this.gameLoop(performance.now());
     }
 
     startGame() {
@@ -120,6 +122,12 @@ export default class Game {
     renderGame() {
         this.ship.render();
         this.beams.forEach((beam) => beam.render());
+    }
+
+    toggleFPSDisplay() {
+        const newVisibility = !this.fpsManager.fpsVisible;
+        this.fpsManager.setFPSVisibility(newVisibility);
+        console.log(`FPS display is now ${newVisibility ? "visible" : "hidden"}`);
     }
  
     pauseGame() {

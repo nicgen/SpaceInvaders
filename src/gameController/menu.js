@@ -38,11 +38,11 @@ export function createMenu(startGame) {
     );
 }
 
-export function createPauseMenu(resumeGame, restartGame) {
+export function createPauseMenu(resumeGame, restartGame, toggleFPS) {
    return createBaseMenu(
     MENU_TITLES.paused,
     BUTTON_TEXTS.paused,
-    [resumeGame, restartGame]
+    [resumeGame, restartGame, toggleFPS]
    );
 }
 

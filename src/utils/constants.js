@@ -56,7 +56,7 @@ export const MENU_STYLE = {
         padding: "20px",
         textAlign: "center",
         borderRadius: "10px",
-        border: "2px solid lightgrey",
+        border: "3px solid #333",
         display: "none",
     },
     title: {
@@ -82,6 +82,21 @@ export const MENU_TITLES = {
 
 export const BUTTON_TEXTS = {
     start: ["Start Exploring"],
-    paused:["Resume Exploration", "Restart Exploration"],
+    paused:["Resume Exploration", "Restart Exploration", "Toggle FPS"],
     gameOver: ["Restart Exploration", "Rage Quit"],
 }
+
+export const FPS_CONSTANTS = {
+    TARGET_FPS: 60,
+    MAX_FPS: 80,
+    FPS_INTERVAL: 1000,
+    FPS_DISPLAY_COLORS: {
+        LOW: 'red',
+        MEDIUM: 'orange',
+        HIGH: 'green',
+    },
+    FPS_PERFORMANCE_THRESHOLDS: {
+        LOW: 0.8,
+        MEDIUM: 1,
+    }
+};

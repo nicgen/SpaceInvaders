@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 class Ship {                                               /*creation de de notre vaisseau qu'on viens mettre dans container(game-container)*/
         constructor(container) {
             this.container = container;
@@ -7,8 +8,24 @@ class Ship {                                               /*creation de de notr
 
             this.speed = 30;                              /*vitesse de notre vaisseau en px*/
             this.shipX = this.container.clientWidth / 2 - this.ship.clientWidth / 2;  /*positionnement de notre vaisseau au centre de notre container*/
+=======
+import { SHIP, GAME } from "../utils/constants.js";
+import Beam from "./projectile.js";
+>>>>>>> bad5aad981ecbb5f16647280102d7b1fc8733cd3
 
+export default class Ship {                                               /*creation de de notre vaisseau qu'on viens mettre dans container(game-container)*/
+        constructor(gameContainer, game) {
+            this.container = gameContainer;
+            this.game = game;
+            this.ship = document.getElementById("ship");
+            this.ship.style.width = `${SHIP.WIDTH}px`;
+            this.ship.style.height = `${SHIP.HEIGHT}px`;
+            this.ship.style.bottom = '1px';
 
+            this.shipX = GAME.WIDTH / 2 - SHIP.WIDTH;  /*positionnement de notre vaisseau au centre de notre container*/
+            
+            this.speed = SHIP.SPEED;
+            this.shootCooldown = SHIP.SHOOT_COOLDOWN; 
             this.canShoot = true;
             this.shootCooldown = 30;  //Délai de ms pour éviter de spam les tir
 

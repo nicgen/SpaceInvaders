@@ -5,7 +5,7 @@ export const GAME = {
     get HEIGHT(){
         return document.getElementById('game-container').getBoundingClientRect().height;
     },
-    BACKGROUND_COLOR: '#111'
+    BACKGROUND_COLOR: '#111',
 };
 
 export const SHIP = {
@@ -17,7 +17,7 @@ export const SHIP = {
     },
     SPEED:10 ,
     COLOR: 'rgb(50, 223, 87)',
-    SHOOT_COOLDOWN: 300
+    SHOOT_COOLDOWN: 300,
 };
 
 export const BEAM = {
@@ -31,17 +31,57 @@ export const BEAM = {
     PHYSICS: {
         GRAVITY: 0.1,
         LIFT: 0
-    }
+    },
 };
 
 export const COLORS = {
     BACKGROUND: '#000',
-    TEXT: '#FFFFFF'
+    TEXT: '#FFFFFF',
 };
 
 export const CONTROLS = {
     MOVE_LEFT: 'ArrowLeft',
     MOVE_RIGHT: 'ArrowRight',
     SHOOT: ' ',
-    PAUSE: 'Escape'
+    PAUSE: 'Escape',
 };
+
+export const MENU_STYLE = {
+    menu: {
+        position: "absolute",
+        top: "50%",
+        left: "50%",
+        transform: "translate(-50%, -50%)",
+        backgroundColor: "rgba(0, 0 ,0, 0.8)",
+        padding: "20px",
+        textAlign: "center",
+        borderRadius: "10px",
+        border: "2px solid lightgrey",
+        display: "none",
+    },
+    title: {
+        color: "white",
+    },
+    button: {
+        padding: "10px 20px",
+        margin: "5px",
+        fontSize: "16px",
+        backgroundColor: "#333",
+        color: "white",
+        border: "none",
+        borderRadius: "5px",
+        cursor: "pointer",
+    }
+};
+
+export const MENU_TITLES = {
+    start: "Mu$K F$king Invador",
+    paused: "Anihilation Paused",
+    gameOver: "ThrustFund Empty",
+};
+
+export const BUTTON_TEXTS = {
+    start: ["Start Exploring"],
+    paused:["Resume Exploration", "Restart Exploration"],
+    gameOver: ["Restart Exploration", "Rage Quit"],
+}

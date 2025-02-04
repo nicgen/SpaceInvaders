@@ -1,4 +1,5 @@
 import {createMenu, createPauseMenu, createGameOverScreen} from './menu.js';
+import { MENU_STYLE } from '../utils/constants.js';
 import StateManager from './stateManager.js';
 import Ship  from '../objects/player.js';
 import InputHandler from '../utils/inputHandler.js';
@@ -27,6 +28,40 @@ export default class Game {
             () => this.restartGame(),
             () => window.location.reload()
         );
+        this.menuScreen.style.display = "block"; // Initially show the menu
+    }
+
+    startGame() {
+        this.menuScreen.style.display = "none";
+        this.stateManager.setRunning();
+        this.running = true;
+        this.score = 0;
+
+        //player/enemies initialization
+
+        this.gameLoop(performance.now());
+
+        //adjust fontsize after the game launch
+        this.adjustScoreboardFontSize();
+
+        //adjust on window resize
+        window.addEventListener('resize', () => this.adjustScoreboardFontSize());
+    }
+
+    adjustScoreboardFontSize() {
+        const container = document.getElementById('scoreBoard-gameContainer');
+        const scoreBoard = document.getElementById('scoreBoard');
+    
+        //calculate fontsize proportionnaly to the container's
+        const fontSize = container.clientWidth * 0.03;
+
+        //get all the elements of the scoreBoard
+        const scoreBoardItems = scoreBoard.querySelectorAll('span');
+    
+        //adjust fontsize for each element
+       scoreBoardItems.forEach(item => {
+        item.style.fontSize = `${fontSize}px`;
+       });
     }
 
     //game logic for key presse
@@ -52,21 +87,10 @@ export default class Game {
     }
 
     restartGame() {
-        this.pauseMenu.classList.add("hidden");
-        this.gameOverScreen.classList.add("hidden");
+        this.pauseMenu.style.display = "none";
+        this.gameOverScreen.style.display = "none";
         this.stateManager.resetGame();
         this.startGame();
-    }
-
-    startGame() {
-        this.menuScreen.classList.add("hidden");
-        this.stateManager.setRunning();
-        this.running = true;
-        this.score = 0;
-
-        //player/enemies initialization
-
-        this.gameLoop(performance.now());
     }
 
     gameLoop(timestamp) {
@@ -101,13 +125,13 @@ export default class Game {
     pauseGame() {
         this.running = false;
         this.stateManager.setPaused();
-        this.pauseMenu.classList.remove("hidden");
+        this.pauseMenu.style.display = "block";
     }
 
     resumeGame() {
         this.running = true;
         this.stateManager.setRunning();
-        this.pauseMenu.classList.add("hidden");
+        this.pauseMenu.style.display = "none";
 
         //continue game loop
         this.gameLoop(performance.now());
@@ -116,8 +140,7 @@ export default class Game {
     gameOver() {
         this.running = false;
         this.stateManager.setGameOver();
-        this.gameOverScreen.classList.remove("hidden");
+        this.gameOverScreen.style.display = "none";
         document.getElementById("finalScore").textContent =`Score: ${this.score}`;
     }
 }
-

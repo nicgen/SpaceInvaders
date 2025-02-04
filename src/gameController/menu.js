@@ -3,7 +3,7 @@ export function createMenu(startGame) {
     menu.id = "menuScreen";
 
     const title = document.createElement("h1");
-    title.textContent = "SpaceInvadors";
+    title.textContent = "Space F*king Invadors";
     menu.appendChild(title);
 
     const startButton = document.createElement("button");

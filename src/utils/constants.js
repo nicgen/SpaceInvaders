@@ -1,12 +1,20 @@
 export const GAME = {
-    WIDTH: 1024,
-    HEIGHT: 872,
+    get WIDTH() {
+        return document.getElementById('game-container').getBoundingClientRect().width;
+    },
+    get HEIGHT(){
+        return document.getElementById('game-container').getBoundingClientRect().height;
+    },
     BACKGROUND_COLOR: '#111'
 };
 
 export const SHIP = {
-    WIDTH: 50,
-    HEIGHT: 30,
+    get WIDTH() {
+        return GAME.WIDTH * 0.08;
+    },
+    get HEIGHT() {
+        return GAME.HEIGHT * 0.025;
+    },
     SPEED:10 ,
     COLOR: 'rgb(50, 223, 87)',
     SHOOT_COOLDOWN: 300

@@ -6,8 +6,9 @@ export default class Ship {                                               /*crea
             this.container = gameContainer;
             this.game = game;
             this.ship = document.getElementById("ship");
-            this.ship.style.width = `${SHIP.WIDTH}px`;
-            this.ship.style.height = `${SHIP.HEIGHT}px`;
+
+            this.updateShipDimensions();
+
             this.ship.style.bottom = '1px';
 
             this.shipX = GAME.WIDTH / 2 - SHIP.WIDTH;  /*positionnement de notre vaisseau au centre de notre container*/
@@ -17,6 +18,16 @@ export default class Ship {                                               /*crea
             this.canShoot = true;
         
             this.render();                                 /*initialisation de la fonction l'affichage de notre vaisseau */
+
+            //resize listener to handle dynamic scaling
+            window.addEventListener('resize', () => {
+                this.updateShipDimensions();
+            });
+        }
+
+        updateShipDimensions() {
+            this.ship.style.width = `${SHIP.WIDTH}px`;
+            this.ship.style.height = `${SHIP.HEIGHT}px`;
         }
 
         moveLeft() {                                            /*Déplacement du vaisseau vers la gauche*/

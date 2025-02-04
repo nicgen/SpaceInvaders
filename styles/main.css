@@ -1,15 +1,47 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 body{
-    background-color: black;
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #70c5ce;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
     overflow: hidden;
 }
 
 #game-container {
-    width: 800px;
-    height: 800px;
+    width: 1024px;
+    height: 872px;
     background-color: #111;
     position: relative;
-    margin: auto;
     border: 2px solid white;
+    overflow: hidden;
+    margin: auto;
+}
+
+#scoreBoard {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    color: white;
+    font-size: 18px;
+    z-index: 10;
+}
+
+#menuScreen {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    text-align: center;
+    font-size: 2rem;
+    z-index: 10;
 }
 
 .ship {
@@ -26,4 +58,8 @@ body{
     width: 5px;
     height: 15px;
     background-color: red;
+}
+
+.hidden {
+    display: none;
 }

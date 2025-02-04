@@ -51,37 +51,4 @@ class Ship {                                               /*creation de de notr
         }
     }
 
-    class Beam {
-        constructor(container, xPosition) {
-            this.container = container;
-            this.beam = document.createElement("div");
-            this.beam.classList.add("beam");
-            this.container.appendChild(this.beam);
-    
-            // Position initiale du tir
-            this.beam.style.left = `${xPosition}px`;
-            this.beam.style.bottom = "30px"; // Part du vaisseau
-    
-            this.speed = 5; //vitesse du tir
-            this.moveBeam();
-        }
-    
-        moveBeam() {
-            const interval = setInterval(() => { //anime le tir toutes les 20ms
-                const beamY = parseInt(this.beam.style.bottom);
-                if (beamY >= this.container.clientHeight - this.beam.clientHeight) {
-                    this.beam.remove(); // Supprime le tir quand il sort de l'écran
-                    clearInterval(interval);
-                } else {
-                    this.beam.style.bottom = `${beamY + this.speed}px`;
-                }
-            }, 20);
-        }
-    }
-
-
-    document.addEventListener("DOMContentLoaded", () => {
-        const gameContainer = document.getElementById("game-container");
-        new Ship(gameContainer);
-    });
-
+   

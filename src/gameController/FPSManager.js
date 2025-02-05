@@ -1,72 +1,45 @@
-import { FPS_CONSTANTS } from "../utils/constants.js";
-
 export default class FPSManager {
-    constructor(){
-        this.targetFPS = FPS_CONSTANTS.TARGET_FPS;
-        this.maxFPS = FPS_CONSTANTS.MAX_FPS;
-        this.lastFrameTime = 0; // time of the last frame
-        this.lastFPSCheck = 0; //accumulated time for physics update
+    constructor() {
         this.frameCount = 0;
-        this.fps = 0; //current fps
-        this.fpsInterval = FPS_CONSTANTS.FPS_INTERVAL; // fps tracking interval 
-        this.deltaTime = 0; //time difference between frames 
+        this.accumulatedInterval = 0;
+        this.fpsInterval = 1000;
+        this.fps = 0;
         this.fpsVisible = true;
-
-        this.displayElement = document.getElementById('fpsDisplay');
-        this.fpsHistory = [];
-        this.historyLength = 10;
+        this.fpsDisplay = document.getElementById('fpsDisplay');
     }
 
-    setFPSVisibility(visible) {
-        this.fpsVisible= visible;
-        this.displayElement.style.display = visible ? "block": "none";
-    }
-
-    calculateSmoothedFPS() {
-        this.fpsHistory.push(this.fps);
-
-        if (this.fpsHistory.length > this.historyLength) {
-            this.fpsHistory.shift();
-        }
-        return Math.round(this.fpsHistory.reduce((a, b) => a + b, 0) / this.fpsHistory.length);
-    }
-
-    //initialize FPS tracking 
-    trackFPS(timestamp){
+    // Update FPS count and manage display
+    update(timestamp) {
         this.frameCount++;
 
-        // track FPS every fpsInterval
-        if (timestamp - this.lastFPSCheck >= this.fpsInterval){
+        if (timestamp - this.accumulatedInterval >= this.fpsInterval) {
             this.fps = this.frameCount;
             this.frameCount = 0;
-            this.lastFPSCheck = timestamp;
+            this.accumulatedInterval = timestamp;
 
-            if (this.fpsVisible && this.displayElement) {
-                const smoothedFPS = this.calculateSmoothedFPS();
-                this.displayElement.textContent = `FPS: ${smoothedFPS}`;
-
-                if (smoothedFPS < this.targetFPS * FPS_CONSTANTS.FPS_PERFORMANCE_THRESHOLDS.LOW) {
-                    this.displayElement.style.color = FPS_CONSTANTS.FPS_DISPLAY_COLORS.LOW;
-                } else if (smoothedFPS < this.targetFPS) {
-                    this.displayElement.style.color = FPS_CONSTANTS.FPS_DISPLAY_COLORS.MEDIUM;
+            if (this.fpsVisible && this.fpsDisplay) {
+                this.fpsDisplay.textContent = `FPS: ${this.fps}`;
+                if (this.fps < 30) {
+                    this.fpsDisplay.style.color = 'red';
+                } else if (this.fps < 60) {
+                    this.fpsDisplay.style.color = 'orange';
                 } else {
-                    this.displayElement.style.color = FPS_CONSTANTS.FPS_DISPLAY_COLORS.HIGH;
+                    this.fpsDisplay.style.color = 'green';
                 }
             }
         }
+
+        return 1000 / 60; // Simulate a fixed time step (60 FPS)
     }
 
-    // update FPS/handle frame rate
-    update(timestamp){
-        this.trackFPS(timestamp);
-
-        if (timestamp - this.lastFrameTime < 1000 / this.maxFPS){
-            return 0;
+    // Toggle FPS display visibility
+    toggleFPSDisplay() {
+        this.fpsVisible = !this.fpsVisible;
+        if (this.fpsVisible) {
+            this.fpsDisplay.style.display = 'block';
+        } else {
+            this.fpsDisplay.style.display = 'none';
         }
-
-        this.deltaTime = timestamp - this.lastFrameTime;
-        this.lastFrameTime = timestamp;
-
-        return this.deltaTime;
+        console.log(`FPS display is now ${this.fpsVisible ? "visible" : "hidden"}`);
     }
 }

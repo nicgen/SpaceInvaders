@@ -9,11 +9,9 @@ export default class Game {
         this.stateManager = new StateManager();
         this.running = false;
         this.score = 0;
-
+        this.fpsManager = new FPSManager(); // Initialize FPS Manager
         this.gameContainer = document.getElementById('game-container');
-        this.fpsManager = new FPSManager();
         this.inputHandler = new InputHandler();
-
         this.ship = new Ship(this.gameContainer, this);
         this.beams = [];
         this.enemy = null;
@@ -30,7 +28,24 @@ export default class Game {
         );
         this.menuScreen.style.display = "block"; // Initially show the menu
 
+        // A reference to the animation frame request (used to stop it during pause)
+        this.animationFrameRequest = null;
+
+        window.addEventListener("keydown", (e) => {
+            if (e.key === "Escape") {
+                this.handlePauseResume();
+            }
+        });
+
         this.gameLoop(performance.now());
+    }
+
+     handlePauseResume() {
+        if (this.stateManager.isRunning()) {
+            this.pauseGame();
+        } else if (this.stateManager.isPaused()) {
+            this.resumeGame();
+        }
     }
 
     startGame() {
@@ -39,14 +54,11 @@ export default class Game {
         this.running = true;
         this.score = 0;
 
-        //player/enemies initialization
+        // Player/enemies initialization
 
         this.gameLoop(performance.now());
-
-        //adjust fontsize after the game launch
         this.adjustScoreboardFontSize();
 
-        //adjust on window resize
         window.addEventListener('resize', () => this.adjustScoreboardFontSize());
     }
 
@@ -54,37 +66,24 @@ export default class Game {
         const container = document.getElementById('scoreBoard-gameContainer');
         const scoreBoard = document.getElementById('scoreBoard');
     
-        //calculate fontsize proportionnaly to the container's
         const fontSize = container.clientWidth * 0.03;
-
-        //get all the elements of the scoreBoard
         const scoreBoardItems = scoreBoard.querySelectorAll('span');
     
-        //adjust fontsize for each element
-       scoreBoardItems.forEach(item => {
-        item.style.fontSize = `${fontSize}px`;
-       });
+        scoreBoardItems.forEach(item => {
+            item.style.fontSize = `${fontSize}px`;
+        });
     }
 
-    //game logic for key presse
     handleKeyPress() {
-        if (this.inputHandler.isKeyPressed("ArrowLeft") && this.stateManager.isRunning()){
+        if (this.inputHandler.isKeyPressed("ArrowLeft") && this.stateManager.isRunning()) {
             this.ship.moveLeft();
-        } else if (this.inputHandler.isKeyPressed("ArrowRight") && this.stateManager.isRunning()){
+        } else if (this.inputHandler.isKeyPressed("ArrowRight") && this.stateManager.isRunning()) {
             this.ship.moveRight();
         }
         if (this.inputHandler.isKeyPressed(" ") && this.stateManager.isRunning() && this.ship.canShoot) {
             this.ship.shoot();
             this.ship.canShoot = false;
             setTimeout(() => this.ship.canShoot = true, this.ship.shootCooldown);
-
-        }
-        if (this.inputHandler.isKeyJustPressed("Escape")) {
-            if (this.stateManager.isRunning()) {
-                this.pauseGame();
-            } else if (this.stateManager.isPaused()){
-                this.resumeGame();
-            }
         }
     }
 
@@ -96,7 +95,7 @@ export default class Game {
     }
 
     gameLoop(timestamp) {
-        const dt = this.fpsManager.update(timestamp);
+        const dt = this.fpsManager.update(timestamp); // Update FPS Manager
 
         if (this.running && dt > 0) {
             this.updateGame();
@@ -104,20 +103,22 @@ export default class Game {
         }
 
         this.handleKeyPress();
-        requestAnimationFrame((ts) => this.gameLoop(ts));
+
+        // Request the next animation frame only if the game is running
+        if (this.running) {
+            this.animationFrameRequest = requestAnimationFrame((ts) => this.gameLoop(ts));
+        }
     }
 
-    // player/enemies movement mechanics
     updateGame() {
         this.beams.forEach((beam, index) => {
             beam.update();
             
-            if (!beam.beam.parentElement){
+            if (!beam.beam.parentElement) {
                 this.beams.splice(index, 1);
             }
         });
     }
-    
 
     renderGame() {
         this.ship.render();
@@ -125,23 +126,24 @@ export default class Game {
     }
 
     toggleFPSDisplay() {
-        const newVisibility = !this.fpsManager.fpsVisible;
-        this.fpsManager.setFPSVisibility(newVisibility);
-        console.log(`FPS display is now ${newVisibility ? "visible" : "hidden"}`);
+        this.fpsManager.toggleFPSDisplay(); // Toggle FPS visibility
     }
- 
+
     pauseGame() {
-        this.running = false;
+        this.running = false;  // Stop game loop
         this.stateManager.setPaused();
         this.pauseMenu.style.display = "block";
+        
+        // Cancel the ongoing animation frame when paused
+        cancelAnimationFrame(this.animationFrameRequest);
     }
 
     resumeGame() {
-        this.running = true;
+        this.running = true;  // Continue game loop
         this.stateManager.setRunning();
         this.pauseMenu.style.display = "none";
 
-        //continue game loop
+        // Restart the game loop with the next frame
         this.gameLoop(performance.now());
     }
 
@@ -149,6 +151,6 @@ export default class Game {
         this.running = false;
         this.stateManager.setGameOver();
         this.gameOverScreen.style.display = "none";
-        document.getElementById("finalScore").textContent =`Score: ${this.score}`;
+        document.getElementById("finalScore").textContent = `Score: ${this.score}`;
     }
 }

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="ALL" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="162c82bd-a962-431e-88ec-1d3cb813b149" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/../src/Game.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../src/objects/engine/BoundaryManager.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../src/objects/engine/Entity.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../src/objects/engine/EntityManager.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../src/objects/engine/FpsManager.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../src/objects/engine/GameEngine.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../src/objects/engine/InputManager.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../src/objects/entities/Player.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../src/objects/entities/Projectile.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../README.md" beforeDir="false" afterPath="$PROJECT_DIR$/../README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../index.html" beforeDir="false" afterPath="$PROJECT_DIR$/../index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/game.js" beforeDir="false" afterPath="$PROJECT_DIR$/data.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/objects/enemy.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/objects/gameObject.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/objects/player.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/objects/projectile.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../styles/main.css" beforeDir="false" afterPath="$PROJECT_DIR$/../styles/main.css" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="GOROOT" url="file:///usr/local/go" />
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 3
+}]]></component>
+  <component name="ProjectId" id="2sZdIfuzT8ELa315hoh5VjiArfV" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.go.formatter.settings.were.checked": "true",
+    "RunOnceActivity.go.migrated.go.modules.settings": "true",
+    "RunOnceActivity.go.modules.go.list.on.any.changes.was.set": "true",
+    "git-widget-placeholder": "tmp__branch",
+    "go.import.settings.migrated": "true",
+    "last_opened_file_path": "/home/nic",
+    "node.js.detected.package.eslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "onboarding.tips.debug.path": "/home/nic/dev/js/SpaceInvaders/server/main.go"
+  }
+}]]></component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-gosdk-d297c17c1fbd-85c80fddc9a6-org.jetbrains.plugins.go.sharedIndexes.bundled-GO-243.23654.166" />
+        <option value="bundled-js-predefined-d6986cc7102b-822845ee3bb5-JavaScript-GO-243.23654.166" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="VgoProject">
+    <settings-migrated>true</settings-migrated>
+  </component>
+</project>

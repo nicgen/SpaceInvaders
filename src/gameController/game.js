@@ -3,6 +3,7 @@ import StateManager from './stateManager.js';
 import Ship  from '../objects/player.js';
 import InputHandler from '../utils/inputHandler.js';
 import FPSManager from './FPSManager.js';
+import { ScoreboardManager, GameTimer} from '../utils/scores.js';
 
 export default class Game {
     constructor() {
@@ -38,6 +39,9 @@ export default class Game {
         });
 
         this.gameLoop(performance.now());
+
+        // scoreboard
+        this.scoreboardManager = new ScoreboardManager();
     }
 
      handlePauseResume() {
@@ -53,6 +57,8 @@ export default class Game {
         this.stateManager.setRunning();
         this.running = true;
         this.score = 0;
+
+        this.scoreboardManager.gameTimer.start();
 
         // Player/enemies initialization
 
@@ -151,10 +157,36 @@ export default class Game {
         this.gameLoop(performance.now());
     }
 
-    gameOver() {
+    async gameOver() {
         this.running = false;
         this.stateManager.setGameOver();
-        this.gameOverScreen.style.display = "none";
+
+        // Stop the timer
+        this.scoreboardManager.gameTimer.stop();
+        console.log('SCORE',this.scoreboardManager);
+        // this.gameOverScreen.style.display = "none";
+        this.gameOverScreen.style.display = "block";
+
+        // Get player name and submit score
+        const playerName = prompt("Enter your name for the scoreboard:");
+        if (playerName) {
+            try {
+                const percentile = await this.scoreboardManager.submitScore(playerName, this.score);
+                alert(`You scored better than ${percentile.toFixed(1)}% of players!`);
+
+                // Display the scoreboard
+                await this.scoreboardManager.displayScoreboard('scoreboard-container', this.score);
+            } catch (error) {
+                console.error('Error handling game over:', error);
+            }
+        }
+
         document.getElementById("finalScore").textContent = `Score: ${this.score}`;
     }
+
+    cleanup() {
+        // Call this when the game is completely done
+        this.scoreboardManager.cleanup();
+    }
+
 }

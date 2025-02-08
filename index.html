@@ -7,41 +7,21 @@
     <title>Space Invaders</title>
     <link rel="stylesheet" href="styles/main.css">
 </head>
-
 <body>
-<!-- Game Scene -->
-<div id="game-container">
-
-    <!-- UI Elements -->
-    <div id="ui">
-        <!-- Player -->
-        <div id="ui-player">
-            <div id="ui-score">
-                <span>Score: <span id="ui-score-value">0</span></span>
-            </div>
-            <div id="ui-lives">
-                <span>Lives: <span id="ui-lives-value">3</span></span>
-            </div>
-            <div id="ui-power-up">
-                <span>Power-Up: <span id="ui-power-up-value">None</span></span>
-            </div>
-            <div id="ui-level">
-                <span>Level: <span id="ui-level-value">1</span></span>
-            </div>
+    <div id="scoreBoard-gameContainer">
+        <div id="scoreBoard">
+            <span id="score">Score: 0</span>
+            <span id="timer">Time: 0s</span>
+            <span id="lives">Lives: 3</span>
+            <span id="fpsDisplay">
+              <p>FPS: 0</p>
+            </span>
         </div>
-        <!-- FPS Counter -->
-        <div id="fps-counter">
-            <span>FPS: <span id="fps-value">0</span></span>
-        </div>
-        <!-- Menu -->
-        <div id="ui-menu">
-            <button id="ui-menu-button">Menu</button>
+        <div id="game-container">
+            <div id="ship" class="ship" ></div>
         </div>
     </div>
-
-</div>
-
-<script type="module"  src="src/game.js"></script>
-
+    <script type="module" src="src/main.js"></script>
 </body>
+<script src="src/game.js"></script>
 </html>

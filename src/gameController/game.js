@@ -79,6 +79,10 @@ export default class Game {
             this.ship.moveLeft();
         } else if (this.inputHandler.isKeyPressed("ArrowRight") && this.stateManager.isRunning()) {
             this.ship.moveRight();
+        } else if (this.inputHandler.isKeyPressed("ArrowUp" ) && this.stateManager.isRunning()) {
+            this.ship.moveUp();
+        } else if (this.inputHandler.isKeyPressed("ArrowDown") && this.stateManager.isRunning()) {
+            this.ship.moveDown();
         }
         if (this.inputHandler.isKeyPressed(" ") && this.stateManager.isRunning() && this.ship.canShoot) {
             this.ship.shoot();

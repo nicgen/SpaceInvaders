@@ -12,7 +12,7 @@ export default class Ship {                                               /*crea
             this.ship.style.bottom = '1px';
 
             this.shipX = GAME.WIDTH / 2 - SHIP.WIDTH;  /*positionnement de notre vaisseau au centre de notre container*/
-            
+            this.shipY = 0;
             this.speed = SHIP.SPEED;
             this.shootCooldown = SHIP.SHOOT_COOLDOWN; 
             this.canShoot = true;
@@ -40,6 +40,16 @@ export default class Ship {                                               /*crea
             this.render();
         }
 
+        moveUp() {
+            this.shipY = Math.min(this.container.clientHeight - this.ship.clientHeight, this.shipY + this.speed);
+            this.render();
+        }
+
+        moveDown() {
+            this.shipY = Math.max(0, this.shipY - this.speed);
+            this.render();
+        }
+
         shoot() {
             if (!this.canShoot) return;
 
@@ -57,6 +67,7 @@ export default class Ship {                                               /*crea
 
         render() {                                      //renvoi le visuel
             this.ship.style.left = `${this.shipX}px`;
+            this.ship.style.bottom = `${this.shipY}px`;
         }
     }
 

@@ -4,7 +4,7 @@ import Ship  from '../objects/player.js';
 import InputHandler from '../utils/inputHandler.js';
 import FPSManager from './FPSManager.js';
 import EnemyFormation from '../objects/enemy.js'
-// import { SHIP, BEAM, GAME } from "../utils/constants.js";
+//import { SHIP, BEAM, GAME } from "../utils/constants.js";
 
 export default class Game {
     constructor() {
@@ -17,6 +17,7 @@ export default class Game {
         this.ship = new Ship(this.gameContainer, this);
         this.beams = [];
         this.enemy = null;
+    
 
         // this.enemies = new EnemyFormation(this.gameContainer);
 

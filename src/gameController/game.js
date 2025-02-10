@@ -3,6 +3,7 @@ import StateManager from './stateManager.js';
 import Ship  from '../objects/player.js';
 import InputHandler from '../utils/inputHandler.js';
 import FPSManager from './FPSManager.js';
+import EnemyFormation from '../objects/enemy.js'
 
 export default class Game {
     constructor() {
@@ -15,6 +16,8 @@ export default class Game {
         this.ship = new Ship(this.gameContainer, this);
         this.beams = [];
         this.enemy = null;
+
+        // this.enemies = new EnemyFormation(this.gameContainer);
 
         this.menuScreen = createMenu(() => this.startGame());
         this.pauseMenu = createPauseMenu(
@@ -38,6 +41,9 @@ export default class Game {
         });
 
         this.gameLoop(performance.now());
+
+        this.enemies = new EnemyFormation(this.gameContainer);
+        this.enemies.pause();
     }
 
      handlePauseResume() {
@@ -53,6 +59,8 @@ export default class Game {
         this.stateManager.setRunning();
         this.running = true;
         this.score = 0;
+
+        this.enemies.resume();
 
         // Player/enemies initialization
 
@@ -115,7 +123,11 @@ export default class Game {
     }
 
     updateGame() {
+        // console.log(`[ENEMIES]: ${this.enemies.enemyWidth}/${this.enemies.update}`)
         this.beams.forEach((beam, index) => {
+
+            // this.enemies.checkCollisions(beam);
+
             beam.update();
             
             if (!beam.beam.parentElement) {
@@ -137,7 +149,7 @@ export default class Game {
         this.running = false;  // Stop game loop
         this.stateManager.setPaused();
         this.pauseMenu.style.display = "block";
-        
+        this.enemies.pause();
         // Cancel the ongoing animation frame when paused
         cancelAnimationFrame(this.animationFrameRequest);
     }
@@ -146,7 +158,7 @@ export default class Game {
         this.running = true;  // Continue game loop
         this.stateManager.setRunning();
         this.pauseMenu.style.display = "none";
-
+        this.enemies.resume();
         // Restart the game loop with the next frame
         this.gameLoop(performance.now());
     }

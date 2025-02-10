@@ -1,17 +1,18 @@
-class EnemyFormation {
+export default class EnemyFormation {
     constructor(container) {
         this.container = container;
         this.enemies = [];
         this.rows = 3;
-        this.cols = 8;
+        this.cols = 2;
         this.enemyWidth = 40;
         this.enemyHeight = 40;
         this.spacing = 20;
         this.direction = 1; // 1 pour droite, -1 pour gauche
-        this.speed = 10; // Vitesse du mouvement horizontal
-        this.verticalStep = 20; // Distance à descendre
+        this.speed = 7; // Vitesse du mouvement horizontal
+        this.verticalStep = this.enemyHeight + this.spacing; // Distance à descendre
         this.createEnemies();
         this.startMoving();
+        this.paused = false; // surely the gamestate should be used instead but i don't know how?
     }
 
     createEnemies() {
@@ -32,13 +33,14 @@ class EnemyFormation {
     startMoving() {
         setInterval(() => {
             this.update();
-        }, 500); // Intervalle de mise à jour (ajuste si nécessaire)
+        }, 50); // Intervalle de mise à jour (ajuste si nécessaire)
     }
 
     update() {
+        if (this.paused) return; // no updates if paused (again, gamestate should be used instead)
         let moveDown = false;
-
         this.enemies.forEach((enemy) => {
+            // console.log("ENEMY GROUP WIDTH",enemy.style.left + this.enemyWidth)
             let x = parseInt(enemy.style.left);
             if ((this.direction === 1 && x + this.enemyWidth >= this.container.clientWidth) ||
                 (this.direction === -1 && x <= 0)) {
@@ -46,19 +48,30 @@ class EnemyFormation {
             }
         });
 
-        this.enemies.forEach((enemy) => {
-            let x = parseInt(enemy.style.left);
-            let y = parseInt(enemy.style.top);
-            if (moveDown) {
+        if (moveDown) {
+            this.enemies.forEach((enemy) => {
+                let y = parseInt(enemy.style.top);
                 y += this.verticalStep;
-                this.direction *= -1; // Change de direction après descente
-            } else {
+                enemy.style.top = `${y}px`;
+            });
+            this.direction *= -1; // Swap direction
+        } else {
+            this.enemies.forEach((enemy) => {
+                let x = parseInt(enemy.style.left);
                 x += this.direction * this.speed;
-            }
-            enemy.style.left = `${x}px`;
-            enemy.style.top = `${y}px`;
-        });
+                enemy.style.left = `${x}px`;
+            });
+        }
     }
+
+    pause() {
+        this.paused = true;
+    }
+
+    resume() {
+        this.paused = false;
+    }
+
 }
 
 window.EnemyFormation = EnemyFormation;

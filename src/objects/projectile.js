@@ -20,6 +20,7 @@ export default class Beam {
     }
 
     update() {
+
         this.y += this.speedY;
 
         if(this.y > GAME.HEIGHT) {

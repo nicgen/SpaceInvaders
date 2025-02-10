@@ -9,12 +9,14 @@ export const GAME = {
 };
 
 export const SHIP = {
-    get WIDTH() {
-        return GAME.WIDTH * 0.08;
-    },
-    get HEIGHT() {
-        return GAME.HEIGHT * 0.025;
-    },
+    // get WIDTH() {
+    //     return GAME.WIDTH * 0.08;
+    // },
+    // get HEIGHT() {
+    //     return GAME.HEIGHT * 0.025;
+    // },
+    WIDTH: 40,
+    HEIGHT: 40,
     SPEED:8 ,
     COLOR: 'rgb(50, 223, 87)',
     SHOOT_COOLDOWN: 300,

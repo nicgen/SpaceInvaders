@@ -1,0 +1,76 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    font-family: Arial, Helvetica, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #70c5ce;
+    min-height: 100vh;
+    margin: 0;
+    overflow: hidden;
+}
+
+#scoreBoard-gameContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+#scoreBoard {
+    display: flex;
+    justify-content: space-evenly;
+    width: 100%;
+    max-width: 115vmin;
+    color: white;
+    font-size: 18px;
+}
+
+#game-container {
+    display: flex;
+    width: 110vmin;
+    aspect-ratio: 1024 / 872;
+    background-color: #111;
+    position: relative;
+    border: 2px solid white;
+    overflow: hidden;
+}
+
+#menuScreen {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    text-align: center;
+    font-size: 2rem;
+    z-index: 10;
+}
+
+.ship {
+    background-color: rgb(50, 223, 87);
+    position: absolute;
+    bottom: 1px;
+    
+}
+
+.beam {
+    position: absolute;
+    width: 5px;
+    height: 15px;
+    background-color: red;
+}
+
+.enemy{
+    width: 40px;
+    height: 40px;
+    background-color: rgb(255, 0, 242);
+    position: absolute;
+    border-radius: 10%;
+}

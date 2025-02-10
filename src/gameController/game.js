@@ -4,6 +4,7 @@ import Ship  from '../objects/player.js';
 import InputHandler from '../utils/inputHandler.js';
 import FPSManager from './FPSManager.js';
 import EnemyFormation from '../objects/enemy.js'
+// import { SHIP, BEAM, GAME } from "../utils/constants.js";
 
 export default class Game {
     constructor() {
@@ -102,6 +103,8 @@ export default class Game {
     }
 
     restartGame() {
+        console.log('RESTART GAME')
+        // problem, doesnt restart the game
         this.pauseMenu.style.display = "none";
         this.gameOverScreen.style.display = "none";
         this.stateManager.resetGame();
@@ -136,6 +139,8 @@ export default class Game {
                 this.beams.splice(index, 1);
             }
         });
+        // Add collision check
+        this.checkCollisions();
     }
 
     renderGame() {
@@ -167,8 +172,52 @@ export default class Game {
 
     gameOver() {
         this.running = false;
+        // this.stateManager.setPaused();
         this.stateManager.setGameOver();
-        this.gameOverScreen.style.display = "none";
-        document.getElementById("finalScore").textContent = `Score: ${this.score}`;
+        this.enemies.pause();
+
+        this.gameOverScreen.style.display = "block";
+        cancelAnimationFrame(this.animationFrameRequest);
+        // document.getElementById("finalScore").textContent = `Score: ${this.score}`;
+    }
+
+    // Add these methods to the Game class
+    checkCollisions() {
+        // Beam to Enemy Collisions
+        this.beams.forEach((beam, beamIndex) => {
+            this.enemies.enemies.forEach((enemy, enemyIndex) => {
+                if (this.isColliding(beam.beam, enemy)) {
+                    // Remove beam
+                    beam.remove();
+                    this.beams.splice(beamIndex, 1);
+
+                    // Remove enemy
+                    enemy.remove();
+                    this.enemies.enemies.splice(enemyIndex, 1);
+
+                    // Increment score
+                    this.score += 10;
+                }
+            });
+        });
+
+        // Enemy to Ship Collision
+        this.enemies.enemies.forEach(enemy => {
+            if (this.isColliding(this.ship.ship, enemy)) {
+                this.gameOver();
+            }
+        });
+    }
+
+    isColliding(rect1, rect2) {
+        const r1 = rect1.getBoundingClientRect();
+        const r2 = rect2.getBoundingClientRect();
+
+        return !(
+            r1.top > r2.bottom ||
+            r1.bottom < r2.top ||
+            r1.right < r2.left ||
+            r1.left > r2.right
+        );
     }
 }

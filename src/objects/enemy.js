@@ -55,10 +55,10 @@ export default class EnemyFormation {
                 y += this.verticalStep;
                 enemy.style.top = `${y}px`;
                 // console.log('[AXIS Y]',y)
-                if (y > 520){
-                    console.log('GAME OVER')
-                    this.paused = true;
-                }
+                // if (y > 520){
+                //     console.log('GAME OVER')
+                //     this.paused = true;
+                // }
             });
             this.direction *= -1; // Swap direction
         } else {
@@ -80,4 +80,4 @@ export default class EnemyFormation {
 
 }
 
-window.EnemyFormation = EnemyFormation;
+// window.EnemyFormation = EnemyFormation;

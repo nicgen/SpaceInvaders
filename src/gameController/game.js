@@ -42,7 +42,9 @@ export default class Game {
 
         this.gameLoop(performance.now());
 
+        // add enemy formation
         this.enemies = new EnemyFormation(this.gameContainer);
+
         this.enemies.pause();
     }
 

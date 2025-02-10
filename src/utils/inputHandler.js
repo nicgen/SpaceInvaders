@@ -8,6 +8,7 @@ export default class InputHandler {
             if (!this.keys[e.key]) {
                 this.justPressedKeys.add(e.key);
             }
+            // console.log('[KEY]',this.keys) // test to see the multiple keypress in action
             this.keys[e.key] = true; 
         });
         window.addEventListener("keyup", (e) => {

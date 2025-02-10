@@ -1,3 +1,4 @@
+import StateManager from '../gameController/stateManager.js'
 export default class EnemyFormation {
     constructor(container) {
         this.container = container;
@@ -12,7 +13,7 @@ export default class EnemyFormation {
         this.verticalStep = this.enemyHeight + this.spacing; // Distance à descendre
         this.createEnemies();
         this.startMoving();
-        this.paused = false; // surely the gamestate should be used instead but i don't know how?
+        this.paused = false; // surely the gamestate should be used instead, but I don't know how?
     }
 
     createEnemies() {
@@ -33,7 +34,7 @@ export default class EnemyFormation {
     startMoving() {
         setInterval(() => {
             this.update();
-        }, 50); // Intervalle de mise à jour (ajuste si nécessaire)
+        }, 5); // Intervalle de mise à jour (ajuste si nécessaire)
     }
 
     update() {
@@ -53,6 +54,11 @@ export default class EnemyFormation {
                 let y = parseInt(enemy.style.top);
                 y += this.verticalStep;
                 enemy.style.top = `${y}px`;
+                // console.log('[AXIS Y]',y)
+                if (y > 520){
+                    console.log('GAME OVER')
+                    this.paused = true;
+                }
             });
             this.direction *= -1; // Swap direction
         } else {

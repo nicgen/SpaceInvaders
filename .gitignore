@@ -1,0 +1,13 @@
+# General
+.DS_Store
+Thumbs.db
+
+# Icon must end with two \r
+Icon
+
+# Thumbnails
+._*
+
+# nico
+/.idea
+space-invaders.html

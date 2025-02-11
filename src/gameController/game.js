@@ -14,11 +14,20 @@ export default class Game {
         this.score = 0;
         this.fpsManager = new FPSManager(); // Initialize FPS Manager
         this.gameContainer = document.getElementById('game-container');
+
+        //backgroundmusic 
+        this.backGroundMusic = document.getElementById("backGroundMusic");
+        this.backGroundMusic.volume = 0.2;
+        this.backGroundMusic.play();
+
+        //shootingSound
+        this.shootSound = new Audio('../../sound/laser-gun.mp3');
+        this.shootSound.volume = 0.08;
+
         this.inputHandler = new InputHandler();
-        this.ship = new Ship(this.gameContainer, this);
+        this.ship = new Ship(this.gameContainer, this, this.shootSound);
         this.beams = [];
         this.enemy = null;
-    
 
         // this.enemies = new EnemyFormation(this.gameContainer);
 
@@ -64,6 +73,8 @@ export default class Game {
         this.stateManager.setRunning();
         this.running = true;
         this.score = 0;
+
+        this.backGroundMusic.play();
 
         this.enemies.resume();
 
@@ -173,6 +184,9 @@ export default class Game {
         this.stateManager.setPaused();
         this.pauseMenu.style.display = "block";
         this.enemies.pause();
+
+        this.backGroundMusic.pause();
+        this.shootSound.pause();
         // Cancel the ongoing animation frame when paused
         cancelAnimationFrame(this.animationFrameRequest);
     }
@@ -182,6 +196,9 @@ export default class Game {
         this.stateManager.setRunning();
         this.pauseMenu.style.display = "none";
         this.enemies.resume();
+
+        this.backGroundMusic.play();
+        this.shootSound.play();
         // Restart the game loop with the next frame
         this.gameLoop(performance.now());
     }

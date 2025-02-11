@@ -2,7 +2,7 @@ import { SHIP, GAME } from "../utils/constants.js";
 import Beam from "./projectile.js";
 
 export default class Ship {                                               /*creation de de notre vaisseau qu'on viens mettre dans container(game-container)*/
-        constructor(gameContainer, game) {
+        constructor(gameContainer, game, shootSound) {
             this.container = gameContainer;
             this.game = game;
 
@@ -26,6 +26,8 @@ export default class Ship {                                               /*crea
             this.speed = SHIP.SPEED;
             this.shootCooldown = SHIP.SHOOT_COOLDOWN; 
             this.canShoot = true;
+
+            this.shootSound = shootSound;
         
             this.render();                                 /*initialisation de la fonction l'affichage de notre vaisseau */
 
@@ -67,6 +69,9 @@ export default class Ship {                                               /*crea
 
         shoot() {
             if (!this.canShoot) return;
+
+            this.shootSound.currentTime = 0;
+            this.shootSound.play();
 
             const beam = new Beam(
                 this.container,

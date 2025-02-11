@@ -10,10 +10,10 @@ export const GAME = {
 
 export const SHIP = {
     get WIDTH() {
-        return GAME.WIDTH * 0.1;
+        return GAME.WIDTH * 0.2;
     },
     get HEIGHT() {
-        return GAME.HEIGHT * 0.1;
+        return GAME.HEIGHT * 0.18;
     },
     SPEED:8 ,
     COLOR: 'rgb(50, 223, 87)',

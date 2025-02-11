@@ -57,8 +57,6 @@ body{
     background-color: rgb(50, 223, 87);
     position: absolute;
     bottom: 1px;
-    height: 40px;
-    width: 40px;
 }
 
 .beam {

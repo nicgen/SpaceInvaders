@@ -4,6 +4,7 @@ import Ship  from '../objects/player.js';
 import InputHandler from '../utils/inputHandler.js';
 import FPSManager from './FPSManager.js';
 import EnemyFormation from '../objects/enemy.js'
+import { GAME, SHIP } from '../utils/constants.js';
 //import { SHIP, BEAM, GAME } from "../utils/constants.js";
 
 export default class Game {
@@ -108,7 +109,21 @@ export default class Game {
         // problem, doesnt restart the game
         this.pauseMenu.style.display = "none";
         this.gameOverScreen.style.display = "none";
+
         this.stateManager.resetGame();
+        this.running = false;
+        this.score = 0;
+
+        //clear beams/enemies
+        this.beams.forEach(beam => beam.remove());
+        this.beam = [];
+        this.enemies.clearEnemies();
+
+        //reset ship
+        this.ship.shipX = GAME.WIDTH / 2 - SHIP.WIDTH;
+        this.ship.shipY = 0;
+        this.ship.render();
+        
         this.startGame();
     }
 

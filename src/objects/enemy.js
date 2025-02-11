@@ -1,15 +1,16 @@
 import StateManager from '../gameController/stateManager.js'
+import { ENEMY } from '../utils/constants.js';
 export default class EnemyFormation {
     constructor(container) {
         this.container = container;
         this.enemies = [];
-        this.rows = 3;
-        this.cols = 2;
-        this.enemyWidth = 40;
-        this.enemyHeight = 40;
-        this.spacing = 20;
+        this.rows = ENEMY.ROWS;
+        this.cols = ENEMY.COLS;
+        this.enemyWidth = ENEMY.WIDTH;
+        this.enemyHeight = ENEMY.HEIGHT;
+        this.spacing = ENEMY.SPACING;
         this.direction = 1; // 1 pour droite, -1 pour gauche
-        this.speed = 7; // Vitesse du mouvement horizontal
+        this.speed = ENEMY.SPEED; // Vitesse du mouvement horizontal
         this.verticalStep = this.enemyHeight + this.spacing; // Distance à descendre
         this.createEnemies();
         this.startMoving();
@@ -76,6 +77,12 @@ export default class EnemyFormation {
 
     resume() {
         this.paused = false;
+    }
+
+    clearEnemies() {
+        this.enemies.forEach(enemy => enemy.remove());
+        this.enemies = [];
+        this.createEnemies();
     }
 
 }

@@ -36,6 +36,16 @@ export const BEAM = {
     },
 };
 
+export const ENEMY = {
+    WIDTH: 40,
+    HEIGHT: 40,
+    SPEED: 3,
+    ROWS: 3,
+    COLS: 2,
+    SPACING: 20,
+    COLOR: 'red'
+};
+
 export const COLORS = {
     BACKGROUND: '#000',
     TEXT: '#FFFFFF',

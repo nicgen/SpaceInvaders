@@ -5,13 +5,23 @@ export default class Ship {                                               /*crea
         constructor(gameContainer, game) {
             this.container = gameContainer;
             this.game = game;
-            this.ship = document.getElementById("ship");
+
+            //Create the svg ship
+            this.ship = document.createElement("object");
+            this.ship.data = "../../img/ship.svg";
+            this.ship.type = "image/svg+xml";
+            this.ship.id = "ship";
+            this.ship.style.position = "absolute";
+            this.container.appendChild(this.ship);
+
+            console.log(this.ship);
 
             this.updateShipDimensions();
+            this.setInitialPosition();
 
             this.ship.style.bottom = '1px';
 
-            this.shipX = GAME.WIDTH / 2 - SHIP.WIDTH;  /*positionnement de notre vaisseau au centre de notre container*/
+            this.shipX = (GAME.WIDTH - SHIP.WIDTH) / 2;  /*positionnement de notre vaisseau au centre de notre container*/
             this.shipY = 0;
             this.speed = SHIP.SPEED;
             this.shootCooldown = SHIP.SHOOT_COOLDOWN; 
@@ -28,6 +38,11 @@ export default class Ship {                                               /*crea
         updateShipDimensions() {
             this.ship.style.width = `${SHIP.WIDTH}px`;
             this.ship.style.height = `${SHIP.HEIGHT}px`;
+        }
+
+        setInitialPosition() {
+            this.shipX = (this.container.clientWidth - SHIP.WIDTH) / 2;
+            this.shipY = 0;;
         }
 
         moveLeft() {                                            /*Déplacement du vaisseau vers la gauche*/

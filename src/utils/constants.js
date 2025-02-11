@@ -10,10 +10,10 @@ export const GAME = {
 
 export const SHIP = {
     get WIDTH() {
-        return GAME.WIDTH * 0.08;
+        return GAME.WIDTH * 0.1;
     },
     get HEIGHT() {
-        return GAME.HEIGHT * 0.025;
+        return GAME.HEIGHT * 0.1;
     },
     SPEED:8 ,
     COLOR: 'rgb(50, 223, 87)',
@@ -36,10 +36,10 @@ export const BEAM = {
 
 export const ENEMY = {
     get WIDTH() {
-        return GAME.WIDTH * 0.08
+        return GAME.WIDTH * 0.06;
     },
     get HEIGHT() {
-        return GAME.HEIGHT * 0.04;
+        return GAME.HEIGHT * 0.06;
     },
     SPEED: 3,
     ROWS: 3,

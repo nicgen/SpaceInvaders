@@ -9,14 +9,12 @@ export const GAME = {
 };
 
 export const SHIP = {
-    // get WIDTH() {
-    //     return GAME.WIDTH * 0.08;
-    // },
-    // get HEIGHT() {
-    //     return GAME.HEIGHT * 0.025;
-    // },
-    WIDTH: 40,
-    HEIGHT: 40,
+    get WIDTH() {
+        return GAME.WIDTH * 0.08;
+    },
+    get HEIGHT() {
+        return GAME.HEIGHT * 0.025;
+    },
     SPEED:8 ,
     COLOR: 'rgb(50, 223, 87)',
     SHOOT_COOLDOWN: 300,
@@ -37,8 +35,12 @@ export const BEAM = {
 };
 
 export const ENEMY = {
-    WIDTH: 40,
-    HEIGHT: 40,
+    get WIDTH() {
+        return GAME.WIDTH * 0.08
+    },
+    get HEIGHT() {
+        return GAME.HEIGHT * 0.04;
+    },
     SPEED: 3,
     ROWS: 3,
     COLS: 2,

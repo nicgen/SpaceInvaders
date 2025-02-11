@@ -34,9 +34,7 @@ body{
 
 #game-container {
     display: flex;
-    /*width: 110vmin;*/
-    width: 800px;
-    height: 600px;
+    width: 110vmin;
     aspect-ratio: 1024 / 872;
     background-color: #111;
     position: relative;
@@ -72,8 +70,6 @@ body{
 
 .enemy {
     position: absolute;
-    width: 60px;
-    height: 60px;
     background-image: url('../img/elon-musk.png');
     background-size: cover;
 }

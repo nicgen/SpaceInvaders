@@ -1,4 +1,3 @@
-import StateManager from '../gameController/stateManager.js'
 import { ENEMY } from '../utils/constants.js';
 export default class EnemyFormation {
     constructor(container) {
@@ -14,7 +13,8 @@ export default class EnemyFormation {
         this.verticalStep = this.enemyHeight + this.spacing; // Distance à descendre
         this.createEnemies();
         this.startMoving();
-        this.paused = false; // surely the gamestate should be used instead, but I don't know how?
+        
+        window.addEventListener('resize', () => this.updateEnemyDimensions());
     }
 
     createEnemies() {
@@ -24,19 +24,30 @@ export default class EnemyFormation {
                 enemy.classList.add("enemy");
                 const x = col * (this.enemyWidth + this.spacing);
                 const y = row * (this.enemyHeight + this.spacing);
+                enemy.style.position = "absolute";
                 enemy.style.left = `${x}px`;
                 enemy.style.top = `${y}px`;
+                enemy.style.width = `${this.enemyWidth}px`;
+                enemy.style.height = `${this.enemyHeight}px`;
                 this.container.appendChild(enemy);
                 this.enemies.push(enemy);
             }
         }
     }
 
+    updateEnemyDimensions() {
+        this.enemies.forEach((enemy) => {
+            enemy.style.width = `${ENEMY.WIDTH}px`;
+            enemy.style.height = `${ENEMY.HEIGHT}px`;
+        });
+    }
+
     startMoving() {
         setInterval(() => {
             this.update();
-        }, 5); // Intervalle de mise à jour (ajuste si nécessaire)
+        }, 15); // Intervalle de mise à jour (ajuste si nécessaire)
     }
+
 
     update() {
         if (this.paused) return; // no updates if paused (again, gamestate should be used instead)
@@ -55,11 +66,11 @@ export default class EnemyFormation {
                 let y = parseInt(enemy.style.top);
                 y += this.verticalStep;
                 enemy.style.top = `${y}px`;
-                // console.log('[AXIS Y]',y)
-                // if (y > 520){
-                //     console.log('GAME OVER')
-                //     this.paused = true;
-                // }
+                
+                if (y + this.enemyHeight >= this.container.clientHeight) {
+                    console.log('GAME OVER');
+                    this.pause();
+                }
             });
             this.direction *= -1; // Swap direction
         } else {

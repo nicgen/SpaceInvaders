@@ -1,101 +1,93 @@
-import { ENEMY } from '../utils/constants.js';
-export default class EnemyFormation {
-    constructor(container) {
+import {ENEMY} from "../utils/constants.js";
+import Beam from "./projectile.js";
+
+export default class Enemy {
+    constructor(container, row, col, formation) {
         this.container = container;
-        this.enemies = [];
-        this.rows = ENEMY.ROWS;
-        this.cols = ENEMY.COLS;
-        this.enemyWidth = ENEMY.WIDTH;
-        this.enemyHeight = ENEMY.HEIGHT;
-        this.spacing = ENEMY.SPACING;
-        this.direction = 1; // 1 pour droite, -1 pour gauche
-        this.speed = ENEMY.SPEED; // Vitesse du mouvement horizontal
-        this.verticalStep = this.enemyHeight + this.spacing; // Distance à descendre
-        this.createEnemies();
-        this.startMoving();
-        
-        window.addEventListener('resize', () => this.updateEnemyDimensions());
+        this.formation = formation;
+        this.row = row;
+        this.col = col;
+
+        // Create the enemy element
+        this.element = document.createElement("div");
+        this.element.classList.add("enemy");
+
+        // Set initial position
+        this.x = col * (ENEMY.WIDTH + ENEMY.SPACING);
+        this.y = row * (ENEMY.HEIGHT + ENEMY.SPACING);
+
+        // Shooting properties
+        this.canShoot = true;
+        this.shootingInterval = null;
+        this.beams = [];
+
+        this.setupElement();
+        this.startShooting();
     }
 
-    createEnemies() {
-        for (let row = 0; row < this.rows; row++) {
-            for (let col = 0; col < this.cols; col++) {
-                const enemy = document.createElement("div");
-                enemy.classList.add("enemy");
-                const x = col * (this.enemyWidth + this.spacing);
-                const y = row * (this.enemyHeight + this.spacing);
-                enemy.style.position = "absolute";
-                enemy.style.left = `${x}px`;
-                enemy.style.top = `${y}px`;
-                enemy.style.width = `${this.enemyWidth}px`;
-                enemy.style.height = `${this.enemyHeight}px`;
-                this.container.appendChild(enemy);
-                this.enemies.push(enemy);
+    setupElement() {
+        this.element.style.position = "absolute";
+        this.element.style.width = `${ENEMY.WIDTH}px`;
+        this.element.style.height = `${ENEMY.HEIGHT}px`;
+        this.element.style.left = `${this.x}px`;
+        this.element.style.top = `${this.y}px`;
+
+        this.container.appendChild(this.element);
+    }
+
+    updatePosition() {
+        this.element.style.left = `${this.x}px`;
+        this.element.style.top = `${this.y}px`;
+    }
+
+    startShooting() {
+        // Random interval between 2 and 5 seconds
+        const randomInterval = Math.random() * (5000 - 2000) + 2000;
+
+        this.shootingInterval = setInterval(() => {
+            if (this.canShoot && Math.random() < 0.3) { // 30% chance to shoot
+                this.shoot();
             }
+        }, randomInterval);
+    }
+
+    shoot() {
+        if (!this.canShoot) return;
+
+        const beam = new Beam(this.container, this.x + (ENEMY.WIDTH / 2), this.y + ENEMY.HEIGHT, true);
+        this.beams.push(beam);
+
+        // Add cooldown
+        this.canShoot = false;
+        setTimeout(() => {
+            this.canShoot = true;
+        }, 1000);
+    }
+
+    stopShooting() {
+        if (this.shootingInterval) {
+            clearInterval(this.shootingInterval);
+            this.shootingInterval = null;
         }
     }
-
-    updateEnemyDimensions() {
-        this.enemies.forEach((enemy) => {
-            enemy.style.width = `${ENEMY.WIDTH}px`;
-            enemy.style.height = `${ENEMY.HEIGHT}px`;
-        });
-    }
-
-    startMoving() {
-        setInterval(() => {
-            this.update();
-        }, 15); // Intervalle de mise à jour (ajuste si nécessaire)
-    }
-
 
     update() {
-        if (this.paused) return; // no updates if paused (again, gamestate should be used instead)
-        let moveDown = false;
-        this.enemies.forEach((enemy) => {
-            // console.log("ENEMY GROUP WIDTH",enemy.style.left + this.enemyWidth)
-            let x = parseInt(enemy.style.left);
-            if ((this.direction === 1 && x + this.enemyWidth >= this.container.clientWidth) ||
-                (this.direction === -1 && x <= 0)) {
-                moveDown = true;
+        // Update beams
+        this.beams.forEach((beam, index) => {
+            beam.update();
+
+            // Remove beam if it's no longer in the DOM
+            if (!beam.beam.parentElement) {
+                this.beams.splice(index, 1);
             }
         });
-
-        if (moveDown) {
-            this.enemies.forEach((enemy) => {
-                let y = parseInt(enemy.style.top);
-                y += this.verticalStep;
-                enemy.style.top = `${y}px`;
-                
-                if (y + this.enemyHeight >= this.container.clientHeight) {
-                    console.log('GAME OVER');
-                    this.pause();
-                }
-            });
-            this.direction *= -1; // Swap direction
-        } else {
-            this.enemies.forEach((enemy) => {
-                let x = parseInt(enemy.style.left);
-                x += this.direction * this.speed;
-                enemy.style.left = `${x}px`;
-            });
-        }
     }
 
-    pause() {
-        this.paused = true;
+    remove() {
+        this.stopShooting();
+        this.element.remove();
+        // Clear any active beams
+        this.beams.forEach(beam => beam.remove());
+        this.beams = [];
     }
-
-    resume() {
-        this.paused = false;
-    }
-
-    clearEnemies() {
-        this.enemies.forEach(enemy => enemy.remove());
-        this.enemies = [];
-        this.createEnemies();
-    }
-
 }
-
-// window.EnemyFormation = EnemyFormation;

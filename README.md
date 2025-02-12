@@ -13,6 +13,7 @@ space-invaders/
 │   │   ├── gameObject.js
 │   │   ├── player.js
 │   │   ├── enemy.js
+│   │   ├── enemyFormation.js
 │   │   └── projectile.js
 │   └── utils/
 │       └── collision.js

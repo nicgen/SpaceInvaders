@@ -3,7 +3,7 @@ import StateManager from './stateManager.js';
 import Ship  from '../objects/player.js';
 import InputHandler from '../utils/inputHandler.js';
 import FPSManager from './FPSManager.js';
-import EnemyFormation from '../objects/enemy.js'
+import EnemyFormation from '../objects/enemyFormation.js'
 import { GAME, SHIP, BEAM, ENEMY } from '../utils/constants.js';
 import LifeManager from './life.js';
 
@@ -16,10 +16,10 @@ export default class Game {
         this.fpsManager = new FPSManager(); // Initialize FPS Manager
         this.gameContainer = document.getElementById('game-container');
 
-        //backgroundmusic 
+        //backgroundmusic
         this.backGroundMusic = document.getElementById("backGroundMusic");
         this.backGroundMusic.volume = 0.2;
-        this.backGroundMusic.play();
+        // this.backGroundMusic.play(); // removed since it triggers an error in the browser
 
         //shootingSound
         this.shootSound = new Audio('../../sound/laser-gun.mp3');
@@ -227,12 +227,11 @@ export default class Game {
         // document.getElementById("finalScore").textContent = `Score: ${this.score}`;
     }
 
-    // Add these methods to the Game class
     checkCollisions() {
-        // Beam to Enemy Collisions
+        // Beam to EnemyFormation Collisions
         this.beams.forEach((beam, beamIndex) => {
             this.enemies.enemies.forEach((enemy, enemyIndex) => {
-                if (this.isColliding(beam.beam, enemy)) {
+                if (this.isColliding(beam.beam, enemy.element)) {
                     // Remove beam
                     beam.remove();
                     this.beams.splice(beamIndex, 1);
@@ -247,18 +246,34 @@ export default class Game {
             });
         });
 
-        // Enemy to Ship Collision
+        // EnemyFormation to Ship Collision
         this.enemies.enemies.forEach(enemy => {
-            if (this.isColliding(this.ship.ship, enemy)) {
+            // Check enemy body collision
+            if (this.isColliding(this.ship.ship, enemy.element)) {
                 this.lifeManager.loseLife();
                 enemy.remove();
             }
+
+            // Check enemy beams collision with player
+            enemy.beams.forEach((beam, beamIndex) => {
+                if (this.isColliding(beam.beam, this.ship.ship)) {
+                    // Remove the beam
+                    beam.remove();
+                    enemy.beams.splice(beamIndex, 1);
+
+                    // Player loses a life
+                    this.lifeManager.loseLife();
+                }
+            });
         });
     }
 
     isColliding(rect1, rect2) {
+        // If rect2 is an EnemyFormation instance, use its element
+        const element2 = rect2.element || rect2;
+
         const r1 = rect1.getBoundingClientRect();
-        const r2 = rect2.getBoundingClientRect();
+        const r2 = element2.getBoundingClientRect();
 
         return !(
             r1.top > r2.bottom ||

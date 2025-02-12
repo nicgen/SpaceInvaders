@@ -22,11 +22,11 @@ export default class Ship {                                               /*crea
             this.shipX = (GAME.WIDTH - SHIP.WIDTH) / 2;  /*positionnement de notre vaisseau au centre de notre container*/
             this.shipY = 0;
             this.speed = SHIP.SPEED;
-            this.shootCooldown = SHIP.SHOOT_COOLDOWN; 
+            this.shootCooldown = SHIP.SHOOT_COOLDOWN;
             this.canShoot = true;
 
             this.shootSound = shootSound;
-        
+
             this.render();                                 /*initialisation de la fonction l'affichage de notre vaisseau */
 
             //resize listener to handle dynamic scaling
@@ -65,28 +65,29 @@ export default class Ship {                                               /*crea
             this.render();
         }
 
-        shoot() {
-            if (!this.canShoot) return;
+    shoot() {
+        if (!this.canShoot) return;
 
-            this.shootSound.currentTime = 0;
-            this.shootSound.play();
+        this.shootSound.currentTime = 0;
+        this.shootSound.play();
 
-            const beam = new Beam(
-                this.container,
-                this.shipX + SHIP.WIDTH / 2,
-                parseInt(this.ship.style.bottom) + SHIP.HEIGHT
-            );
+        // console.log(`PLAYER SHOOT Y: ${parseInt(this.ship.style.bottom)}`)
 
-            this.game.beams.push(beam);
-            this.canShoot = false;
+        const beam = new Beam(
+            this.container,
+            this.shipX + SHIP.WIDTH / 2,
+            // parseInt(this.ship.style.bottom)
+            GAME.HEIGHT - this.shipY - SHIP.HEIGHT
+        );
 
-            setTimeout(() => {this.canShoot = true}, this.shootCooldown);
-        }
+        this.game.beams.push(beam);
+        this.canShoot = false;
 
-        render() {                                      //renvoi le visuel
-            this.ship.style.left = `${this.shipX}px`;
-            this.ship.style.bottom = `${this.shipY}px`;
-        }
+        setTimeout(() => {this.canShoot = true}, this.shootCooldown);
     }
 
-
+    render() {                                      //renvoi le visuel
+            this.ship.style.left = `${this.shipX}px`;
+            this.ship.style.bottom = `${this.shipY}px`;
+    }
+}

@@ -103,8 +103,8 @@ export default class Game {
 
         const lifeIcons = document.querySelectorAll('.life-icon');
         lifeIcons.forEach(icon => {
-            icon.style.width = `${fontSize * 1.1}px`;
-            icon.style.height = `${fontSize * 1.1}px`;       
+            icon.style.width = `${fontSize}px`;
+            icon.style.height = `${fontSize}px`;       
         });
     }
 

@@ -1,7 +1,9 @@
 export default class LifeManager {
     constructor(initialLives = 3) {
         this.lives = initialLives;
-        this.livesContainer = document.getElementById("lives");
+        this.livesContainer = document.createElement("span");
+        this.livesContainer.id = "lives-container";
+        document.getElementById("scoreBoard").insertBefore(this.livesContainer, document.getElementById("fpsDisplay"));
         this.updateLivesDisplay();
     }
 
@@ -13,10 +15,9 @@ export default class LifeManager {
             life.data = "../../img/dols.svg";
             life.type = "image/svg+xml";
             life.classList.add("life-icon");
-            life.style.width = "24px";
-            life.style.height = "24px";
             this.livesContainer.appendChild(life);
         }
+        this.adjustScoreboardFontSize();
     }
 
     loseLife() {
@@ -31,6 +32,24 @@ export default class LifeManager {
     }
 
     setGameOverCallback(callback) {
-        this.gameOverCallback = callback
-;    }
+        this.gameOverCallback = callback;    
+    }
+
+    adjustScoreboardFontSize() {
+        const container = document.getElementById('scoreBoard-gameContainer');
+        const scoreBoard = document.getElementById('scoreBoard');
+
+        const fontSize = container.clientWidth * 0.03;
+        const scoreBoardItems = scoreBoard.querySelectorAll('span');
+
+        scoreBoardItems.forEach(item => {
+            item.style.fontSize = `${fontSize}px`;
+        });
+
+        const lifeIcons = document.querySelectorAll('.life-icon');
+        lifeIcons.forEach(icon => {
+            icon.style.width = `${fontSize * 1.1}px`; 
+            icon.style.height = `${fontSize * 1.1}px`;
+        });
+    }
 }

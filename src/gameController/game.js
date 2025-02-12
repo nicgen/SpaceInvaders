@@ -5,6 +5,7 @@ import InputHandler from '../utils/inputHandler.js';
 import FPSManager from './FPSManager.js';
 import EnemyFormation from '../objects/enemy.js'
 import { GAME, SHIP, BEAM, ENEMY } from '../utils/constants.js';
+import LifeManager from './life.js';
 
 
 export default class Game {
@@ -46,6 +47,14 @@ export default class Game {
         // A reference to the animation frame request (used to stop it during pause)
         this.animationFrameRequest = null;
 
+        // add enemy formation
+        this.enemies = new EnemyFormation(this.gameContainer);
+        this.enemies.pause();
+
+        //lifeManager
+        this.lifeManager = new LifeManager(3);
+        this.lifeManager.setGameOverCallback(() => this.gameOver());
+
         window.addEventListener("keydown", (e) => {
             if (e.key === "Escape") {
                 this.handlePauseResume();
@@ -53,11 +62,6 @@ export default class Game {
         });
 
         this.gameLoop(performance.now());
-
-        // add enemy formation
-        this.enemies = new EnemyFormation(this.gameContainer);
-
-        this.enemies.pause();
     }
 
      handlePauseResume() {
@@ -96,6 +100,12 @@ export default class Game {
         scoreBoardItems.forEach(item => {
             item.style.fontSize = `${fontSize}px`;
         });
+
+        const lifeIcons = document.querySelectorAll('.life-icon');
+        lifeIcons.forEach(icon => {
+            icon.style.width = `${fontSize * 1.2}px`;
+            icon.style.height = `${fontSize * 1.2}px`;       
+        });
     }
 
     handleKeyPress() {
@@ -116,8 +126,6 @@ export default class Game {
     }
 
     restartGame() {
-        console.log('RESTART GAME')
-        // problem, doesnt restart the game
         this.pauseMenu.style.display = "none";
         this.gameOverScreen.style.display = "none";
 
@@ -134,6 +142,11 @@ export default class Game {
         this.ship.shipX = GAME.WIDTH / 2 - SHIP.WIDTH;
         this.ship.shipY = 0;
         this.ship.render();
+
+        //reset lifeManager
+        this.lifeManager.lives = 3;
+        this.lifeManager.updateLivesDisplay();
+        this.lifeManager.setGameOverCallback(() => this.gameOver());
 
         this.startGame();
     }
@@ -237,7 +250,8 @@ export default class Game {
         // Enemy to Ship Collision
         this.enemies.enemies.forEach(enemy => {
             if (this.isColliding(this.ship.ship, enemy)) {
-                this.gameOver();
+                this.lifeManager.loseLife();
+                enemy.remove();
             }
         });
     }

@@ -14,8 +14,6 @@ export default class Ship {                                               /*crea
             this.ship.style.position = "absolute";
             this.container.appendChild(this.ship);
 
-            console.log(this.ship);
-
             this.updateShipDimensions();
             this.setInitialPosition();
 

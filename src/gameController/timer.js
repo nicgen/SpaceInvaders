@@ -42,7 +42,8 @@ export default class Timer {
 
     pause() {
         if (!this.paused) {
-            this.stop();
+            clearInterval(this.timerInterval);
+            this.timerInterval = null;
             this.paused = true;
         }
     }

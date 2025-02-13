@@ -3,7 +3,6 @@ export const COLORS = {
     TEXT: '#FFFFFF',
 };
 
-
 export const GAME = {
     get WIDTH() {
         return document.getElementById('game-container').getBoundingClientRect().width;
@@ -148,4 +147,9 @@ export const FPS_CONSTANTS = {
         LOW: 0.8,
         MEDIUM: 1,
     }
+};
+
+export const TIMER = {
+    DEFAULT_TIME: 30,
+    INTERVAL: 100,
 };

@@ -6,15 +6,21 @@ import FPSManager from './FPSManager.js';
 import EnemyFormation from '../objects/enemyFormation.js'
 import { GAME, SHIP, ENEMY_FORMATION } from '../utils/constants.js';
 import LifeManager from './life.js';
-
+import Timer from './timer.js';
 
 export default class Game {
     constructor() {
         this.stateManager = new StateManager();
         this.running = false;
         this.score = 0;
+        this.scoreContainer = document.getElementById('score');
+
         this.fpsManager = new FPSManager(); // Initialize FPS Manager
         this.gameContainer = document.getElementById('game-container');
+
+        // TIMER
+        this.timer = new Timer("timer", 30, (state) => this.gameOver(state));
+        // this.timer = new Timer("timer", 30); // Create a timer for 30 seconds
 
         //backgroundmusic
         this.backGroundMusic = document.getElementById("backGroundMusic");
@@ -28,7 +34,6 @@ export default class Game {
         this.inputHandler = new InputHandler();
         this.ship = new Ship(this.gameContainer, this, this.shootSound);
         this.beams = [];
-        this.enemy = null;
         this.enemyBeams = [];
         window.game = this;
 
@@ -53,7 +58,8 @@ export default class Game {
 
         //lifeManager
         this.lifeManager = new LifeManager(3);
-        this.lifeManager.setGameOverCallback(() => this.gameOver());
+        // this.lifeManager.setGameOverCallback(() => this.gameOver());
+        this.lifeManager.setGameOverCallback((state) => this.gameOver(state));
 
         window.addEventListener("keydown", (e) => {
             if (e.key === "Escape") {
@@ -78,11 +84,10 @@ export default class Game {
         this.running = true;
         this.score = 0;
 
+        this.timer.start();
+
         this.backGroundMusic.play();
-
         this.enemies.resume();
-
-        // Player/enemies initialization
 
         this.gameLoop(performance.now());
         this.adjustScoreboardFontSize();
@@ -128,6 +133,9 @@ export default class Game {
     restartGame() {
         this.pauseMenu.style.display = "none";
         this.gameOverScreen.style.display = "none";
+        
+        this.timer.reset();
+        this.timer.start();
 
         this.stateManager.resetGame();
         this.running = false;
@@ -135,8 +143,9 @@ export default class Game {
 
         //clear beams/enemies
         this.beams.forEach(beam => beam.remove());
-        this.beam = [];
-        this.enemies.clearEnemies();
+        this.beams = [];
+        this.enemyBeams.forEach(beam => beam.remove());
+        this.enemyBeams = [];
 
         //reset ship
         this.ship.shipX = GAME.WIDTH / 2 - SHIP.WIDTH;
@@ -147,6 +156,11 @@ export default class Game {
         this.lifeManager.lives = 3;
         this.lifeManager.updateLivesDisplay();
         this.lifeManager.setGameOverCallback(() => this.gameOver());
+
+        //Reset enemies
+        this.enemies.clearEnemies();
+        this.enemies = new EnemyFormation(this.gameContainer);
+        this.enemies.pause();
 
         this.startGame();
     }
@@ -174,12 +188,14 @@ export default class Game {
                 this.beams.splice(index, 1);
             }
         });
-        this.enemyBeams.forEach((beam, index) => {
-            beam.update();
-            if (!beam.beam.parentElement) {
-                this.enemyBeams.splice(index, 1);
-            }
-        });
+        
+        // Ensure enemyBeams exists before updating
+        if (this.enemyBeams) {
+            this.enemyBeams = this.enemyBeams.filter(beam => {
+                beam.update();
+                return beam.beam.parentElement !== null;
+            });
+        }
         this.checkCollisions();
     }
 
@@ -194,6 +210,7 @@ export default class Game {
 
     pauseGame() {
         this.running = false;  // Stop game loop
+        this.timer.pause();
         this.stateManager.setPaused();
         this.pauseMenu.style.display = "block";
         this.enemies.pause();
@@ -206,6 +223,7 @@ export default class Game {
 
     resumeGame() {
         this.running = true;  // Continue game loop
+        this.timer.resume();
         this.stateManager.setRunning();
         this.pauseMenu.style.display = "none";
         this.enemies.resume();
@@ -216,13 +234,26 @@ export default class Game {
         this.gameLoop(performance.now());
     }
 
-    gameOver() {
+    gameOver(state = null) {
+        // console.log("gameOver", state);
         this.running = false;
-        // this.stateManager.setPaused();
+        this.timer.stop();
         this.stateManager.setGameOver();
         this.enemies.pause();
 
+        //remove all remaining beams
+        this.enemyBeams.forEach(beam => beam.remove());
+        this.enemyBeams = [];
+
+        // Display the game over screen
         this.gameOverScreen.style.display = "block";
+
+        if (state === 'win') {
+            console.log(`You won!`);
+        } else if (state === 'loose') {
+            console.log(`You loose!`);
+        }
+
         cancelAnimationFrame(this.animationFrameRequest);
         // document.getElementById("finalScore").textContent = `Score: ${this.score}`;
     }
@@ -238,6 +269,7 @@ export default class Game {
                     this.enemies.enemies.splice(enemyIndex, 1);
                     // Increment score
                     this.score += 10;
+                    this.scoreContainer.textContent = `Score: ${this.score}`;
                 }
             });
         });
@@ -275,4 +307,5 @@ export default class Game {
             r1.left > r2.right
         );
     }
+
 }

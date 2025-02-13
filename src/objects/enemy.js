@@ -48,7 +48,7 @@ export default class Enemy {
     }
 
     shoot() {
-        if (!this.canShoot) return;
+        if (!this.canShoot || this.formation.paused) return;
 
         const beam = new Beam(this.container, this.x + (ENEMY.WIDTH / 2), this.y + ENEMY.HEIGHT, true);
         this.beams.push(beam);
@@ -86,10 +86,18 @@ export default class Enemy {
 
     remove() {
         this.stopShooting();
-        this.element.remove();
+        this.element.remove()
+        // Clear any active beams
+        this.beams.forEach(beam => beam.remove());
+        this.beams = [];
+
+        // Remove beams from the global tracking system (if necessary)
+        if (window.game) {
+            window.game.enemyBeams = window.game.enemyBeams.filter(b => !this.beams.includes(b));
+            }
 
         if (window.game) {
             window.game.score += SCORE.ENEMY_HIT;
-        }
+            }
     }
 }

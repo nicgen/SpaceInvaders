@@ -34,10 +34,8 @@ body{
 
 #game-container {
     display: flex;
-    /*width: 110vmin;*/
-    /*aspect-ratio: 1024 / 872;*/
-    width: 800px;
-    height: 600px;
+    width: 110vmin;
+    aspect-ratio: 1024 / 872;
     background-color: #111;
     position: relative;
     border: 2px solid white;

@@ -4,7 +4,7 @@ import Ship  from '../objects/player.js';
 import InputHandler from '../utils/inputHandler.js';
 import FPSManager from './FPSManager.js';
 import EnemyFormation from '../objects/enemyFormation.js'
-import { GAME, SHIP, BEAM, ENEMY } from '../utils/constants.js';
+import { GAME, SHIP, ENEMY_FORMATION } from '../utils/constants.js';
 import LifeManager from './life.js';
 
 
@@ -29,8 +29,8 @@ export default class Game {
         this.ship = new Ship(this.gameContainer, this, this.shootSound);
         this.beams = [];
         this.enemy = null;
-
-        // this.enemies = new EnemyFormation(this.gameContainer);
+        this.enemyBeams = [];
+        window.game = this;
 
         this.menuScreen = createMenu(() => this.startGame());
         this.pauseMenu = createPauseMenu(
@@ -48,7 +48,7 @@ export default class Game {
         this.animationFrameRequest = null;
 
         // add enemy formation
-        this.enemies = new EnemyFormation(this.gameContainer);
+        this.enemies = new EnemyFormation(this.gameContainer, ENEMY_FORMATION.V_SHAPE);
         this.enemies.pause();
 
         //lifeManager
@@ -168,18 +168,18 @@ export default class Game {
     }
 
     updateGame() {
-        // console.log(`[ENEMIES]: ${this.enemies.enemyWidth}/${this.enemies.update}`)
         this.beams.forEach((beam, index) => {
-
-            // this.enemies.checkCollisions(beam);
-
             beam.update();
-            
             if (!beam.beam.parentElement) {
                 this.beams.splice(index, 1);
             }
         });
-        // Add collision check
+        this.enemyBeams.forEach((beam, index) => {
+            beam.update();
+            if (!beam.beam.parentElement) {
+                this.enemyBeams.splice(index, 1);
+            }
+        });
         this.checkCollisions();
     }
 
@@ -228,25 +228,21 @@ export default class Game {
     }
 
     checkCollisions() {
-        // Beam to EnemyFormation Collisions
+        // shipBeam hitting enemies
         this.beams.forEach((beam, beamIndex) => {
             this.enemies.enemies.forEach((enemy, enemyIndex) => {
                 if (this.isColliding(beam.beam, enemy.element)) {
-                    // Remove beam
                     beam.remove();
                     this.beams.splice(beamIndex, 1);
-
-                    // Remove enemy
                     enemy.remove();
                     this.enemies.enemies.splice(enemyIndex, 1);
-
                     // Increment score
                     this.score += 10;
                 }
             });
         });
 
-        // EnemyFormation to Ship Collision
+        // Enemy/Ship Collision
         this.enemies.enemies.forEach(enemy => {
             // Check enemy body collision
             if (this.isColliding(this.ship.ship, enemy.element)) {
@@ -257,11 +253,8 @@ export default class Game {
             // Check enemy beams collision with player
             enemy.beams.forEach((beam, beamIndex) => {
                 if (this.isColliding(beam.beam, this.ship.ship)) {
-                    // Remove the beam
                     beam.remove();
                     enemy.beams.splice(beamIndex, 1);
-
-                    // Player loses a life
                     this.lifeManager.loseLife();
                 }
             });

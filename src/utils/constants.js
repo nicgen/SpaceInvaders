@@ -1,3 +1,9 @@
+export const COLORS = {
+    BACKGROUND: '#000',
+    TEXT: '#FFFFFF',
+};
+
+
 export const GAME = {
     get WIDTH() {
         return document.getElementById('game-container').getBoundingClientRect().width;
@@ -35,14 +41,12 @@ export const BEAM = {
 };
 
 export const ENEMY = {
-    // get WIDTH() {
-    //     return GAME.WIDTH * 0.06;
-    // },
-    // get HEIGHT() {
-    //     return GAME.HEIGHT * 0.06;
-    // },
-    WIDTH: 60,
-    HEIGHT: 60,
+    get WIDTH() {
+        return GAME.WIDTH * 0.06;
+    },
+    get HEIGHT() {
+        return GAME.HEIGHT * 0.06;
+    },
     SPEED: 3,
     ROWS: 3,
     COLS: 2,
@@ -50,9 +54,32 @@ export const ENEMY = {
     COLOR: 'red'
 };
 
-export const COLORS = {
-    BACKGROUND: '#000',
-    TEXT: '#FFFFFF',
+export const ENEMY_FORMATION = {
+    GRID: {
+        ROWS: 3,
+        COLS: 5,
+        SPACING: 50,
+    },
+    V_SHAPE: {
+        ROWS: 5,
+        COLS: 10,
+        SPACING: 50,
+    },
+    LINE: {
+        ROWS: 1,
+        COLS: 8,
+        SPACING: 50,
+    },
+};
+
+export const ENEMY_BEHAVIOR = {
+    RANDOM_SHOOTING_INTERVAL: Math.random() * (5000 - 2000) + 2000,
+    INITIAL_DIRECTION: 1,
+    SHOOT_PROBABILITY: 0.3,
+    SHOOT_COOLDOWN: 1000,
+    MOVEMENT_SPEED: 3,
+    MOVEMENT_SPEED_INTERVAL: 1000,
+    MOVE_INTERVAL: 15,
 };
 
 export const CONTROLS = {
@@ -60,6 +87,12 @@ export const CONTROLS = {
     MOVE_RIGHT: 'ArrowRight',
     SHOOT: ' ',
     PAUSE: 'Escape',
+};
+
+export const SCORE = {
+    ENEMY_HIT: 10,
+    POWERUP: 50,
+    BONU: 100,
 };
 
 export const MENU_STYLE = {

@@ -1,20 +1,18 @@
-import {ENEMY} from "../utils/constants.js";
+import {ENEMY, ENEMY_BEHAVIOR, SCORE} from "../utils/constants.js";
 import Beam from "./projectile.js";
 
 export default class Enemy {
-    constructor(container, row, col, formation) {
+    constructor(container, row, col, formation, x, y) {
         this.container = container;
         this.formation = formation;
         this.row = row;
         this.col = col;
+        this.x = x;
+        this.y = y;
 
         // Create the enemy element
         this.element = document.createElement("div");
         this.element.classList.add("enemy");
-
-        // Set initial position
-        this.x = col * (ENEMY.WIDTH + ENEMY.SPACING);
-        this.y = row * (ENEMY.HEIGHT + ENEMY.SPACING);
 
         // Shooting properties
         this.canShoot = true;
@@ -27,6 +25,7 @@ export default class Enemy {
 
     setupElement() {
         this.element.style.position = "absolute";
+        this.element.style.backgroundColor= ENEMY.COLOR;
         this.element.style.width = `${ENEMY.WIDTH}px`;
         this.element.style.height = `${ENEMY.HEIGHT}px`;
         this.element.style.left = `${this.x}px`;
@@ -41,14 +40,11 @@ export default class Enemy {
     }
 
     startShooting() {
-        // Random interval between 2 and 5 seconds
-        const randomInterval = Math.random() * (5000 - 2000) + 2000;
-
         this.shootingInterval = setInterval(() => {
-            if (this.canShoot && Math.random() < 0.3) { // 30% chance to shoot
+            if (this.canShoot && Math.random() < ENEMY_BEHAVIOR.SHOOT_PROBABILITY) { 
                 this.shoot();
             }
-        }, randomInterval);
+        }, ENEMY_BEHAVIOR.RANDOM_SHOOTING_INTERVAL);
     }
 
     shoot() {
@@ -56,12 +52,17 @@ export default class Enemy {
 
         const beam = new Beam(this.container, this.x + (ENEMY.WIDTH / 2), this.y + ENEMY.HEIGHT, true);
         this.beams.push(beam);
+         
+        //add beam to the game's tracking system
+        if (window.game) {
+            window.game.enemyBeams.push(beam);
+        }
 
         // Add cooldown
         this.canShoot = false;
         setTimeout(() => {
             this.canShoot = true;
-        }, 1000);
+        }, ENEMY_BEHAVIOR.SHOOT_COOLDOWN);
     }
 
     stopShooting() {
@@ -86,8 +87,9 @@ export default class Enemy {
     remove() {
         this.stopShooting();
         this.element.remove();
-        // Clear any active beams
-        this.beams.forEach(beam => beam.remove());
-        this.beams = [];
+
+        if (window.game) {
+            window.game.score += SCORE.ENEMY_HIT;
+        }
     }
 }

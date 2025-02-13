@@ -138,7 +138,8 @@ export default class Game {
     restartGame() {
         this.pauseMenu.style.display = "none";
         this.gameOverScreen.style.display = "none";
-
+        
+        this.timer.reset();
         this.timer.start();
 
         this.stateManager.resetGame();

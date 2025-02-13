@@ -32,7 +32,7 @@ export default class Timer {
             } else {
                 this.updateDisplay();
             }
-        }, this.remainingTime); 
+        }, 100); 
     }
 
     stop() {
@@ -58,5 +58,11 @@ export default class Timer {
         const seconds = Math.floor(this.remainingTime / 1000);
         const milliseconds = Math.floor((this.remainingTime % 1000) / 100);
         this.displayElement.textContent = `Time: ${seconds}s ${milliseconds}ms`;
+    }
+
+    reset() {
+        this.stop();
+        this.remainingTime = this.initialTime * 1000;
+        this.updateDisplay();
     }
 }

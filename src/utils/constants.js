@@ -56,8 +56,8 @@ export const ENEMY = {
 
 export const ENEMY_FORMATION = {
     GRID: {
-        ROWS: 3,
-        COLS: 5,
+        ROWS: 4,
+        COLS: 6,
         SPACING: 50,
     },
     V_SHAPE: {
@@ -67,7 +67,7 @@ export const ENEMY_FORMATION = {
     },
     LINE: {
         ROWS: 1,
-        COLS: 8,
+        COLS: 10,
         SPACING: 50,
     },
 };
@@ -91,8 +91,8 @@ export const CONTROLS = {
 
 export const SCORE = {
     ENEMY_HIT: 10,
-    POWERUP: 50,
-    BONU: 100,
+    //POWERUP: 50,
+    BONUS: 100,
 };
 
 export const MENU_STYLE = {

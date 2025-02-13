@@ -1,5 +1,7 @@
+import { TIMER } from "../utils/constants.js";
+
 export default class Timer {
-    constructor(displayElementId, initialTime = 30, onTimeUp) {
+    constructor(displayElementId, initialTime = TIMER.DEFAULT_TIME, onTimeUp) {
         this.initialTime = initialTime;
         this.remainingTime = initialTime * 1000;
         this.timerInterval = null;
@@ -16,7 +18,7 @@ export default class Timer {
 
         this.updateDisplay();
         this.timerInterval = setInterval(() => {
-            this.remainingTime -= 100; // Decrement by 100 ms
+            this.remainingTime -= TIMER.INTERVAL; 
 
             if (this.remainingTime <= 0) {
                 this.stop();
@@ -30,7 +32,7 @@ export default class Timer {
             } else {
                 this.updateDisplay();
             }
-        }, 100); // Update every 100 ms
+        }, this.remainingTime); 
     }
 
     stop() {

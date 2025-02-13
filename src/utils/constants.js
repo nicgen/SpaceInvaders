@@ -1,3 +1,8 @@
+export const COLORS = {
+    BACKGROUND: '#000',
+    TEXT: '#FFFFFF',
+};
+
 export const GAME = {
     get WIDTH() {
         return document.getElementById('game-container').getBoundingClientRect().width;
@@ -48,11 +53,6 @@ export const ENEMY = {
     COLS: 2,
     SPACING: 20,
     COLOR: 'red'
-};
-
-export const COLORS = {
-    BACKGROUND: '#000',
-    TEXT: '#FFFFFF',
 };
 
 export const CONTROLS = {
@@ -115,4 +115,9 @@ export const FPS_CONSTANTS = {
         LOW: 0.8,
         MEDIUM: 1,
     }
+};
+
+export const TIMER = {
+    DEFAULT_TIME: 30,
+    INTERVAL: 100,
 };

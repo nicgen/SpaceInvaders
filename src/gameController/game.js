@@ -6,7 +6,7 @@ import FPSManager from './FPSManager.js';
 import EnemyFormation from '../objects/enemyFormation.js'
 import { GAME, SHIP, BEAM, ENEMY } from '../utils/constants.js';
 import LifeManager from './life.js';
-import Timer from '../utils/timer.js'
+import Timer from './timer.js'
 
 export default class Game {
     constructor() {

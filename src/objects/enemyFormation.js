@@ -45,8 +45,8 @@ export default class EnemyFormation {
 
     update() {
         if (this.enemies.length === 0) {
-
-            console.log('NO ENEMIES')
+            this.pause();
+            return;
         }
 
         if (this.paused) return;
@@ -101,9 +101,12 @@ export default class EnemyFormation {
     }
 
     clearEnemies() {
-        this.enemies.forEach(enemy => enemy.remove());
+        this.enemies.forEach(enemy => {
+            enemy.beams.forEach(beam => beam.remove());
+            enemy.stopShooting();
+            enemy.remove();    
+        });
         this.enemies = [];
-        this.createEnemies();
     }
 
     removeEnemy(enemy) {

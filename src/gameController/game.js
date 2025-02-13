@@ -6,7 +6,7 @@ import FPSManager from './FPSManager.js';
 import EnemyFormation from '../objects/enemyFormation.js'
 import { GAME, SHIP, BEAM, ENEMY } from '../utils/constants.js';
 import LifeManager from './life.js';
-import Timer from './timer.js'
+import Timer from './timer.js';
 
 export default class Game {
     constructor() {
@@ -148,7 +148,8 @@ export default class Game {
         //clear beams/enemies
         this.beams.forEach(beam => beam.remove());
         this.beam = [];
-        this.enemies.clearEnemies();
+        this.enemyBeams.forEach(beam => beam.remove());
+        this.enemyBeams = [];
 
         //reset ship
         this.ship.shipX = GAME.WIDTH / 2 - SHIP.WIDTH;
@@ -159,6 +160,11 @@ export default class Game {
         this.lifeManager.lives = 3;
         this.lifeManager.updateLivesDisplay();
         this.lifeManager.setGameOverCallback(() => this.gameOver());
+
+        //Reset enemies
+        this.enemies.clearEnemies();
+        this.enemies = new EnemyFormation(this.gameContainer);
+        this.enemies.pause();
 
         this.startGame();
     }
@@ -240,6 +246,10 @@ export default class Game {
         this.timer.stop();
         this.stateManager.setGameOver();
         this.enemies.pause();
+
+        //remove all remaining beams
+        this.enemyBeams.forEach(beam => beam.remove());
+        this.enemyBeams = [];
 
         // Display the game over screen
         this.gameOverScreen.style.display = "block";

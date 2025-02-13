@@ -52,7 +52,7 @@ export default class Enemy {
     }
 
     shoot() {
-        if (!this.canShoot) return;
+        if (!this.canShoot || this.formation.paused) return;
 
         const beam = new Beam(this.container, this.x + (ENEMY.WIDTH / 2), this.y + ENEMY.HEIGHT, true);
         this.beams.push(beam);

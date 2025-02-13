@@ -210,7 +210,7 @@ export default class Game {
 
     pauseGame() {
         this.running = false;  // Stop game loop
-        this.timer.pause();
+        this.timer.stop();
         this.stateManager.setPaused();
         this.pauseMenu.style.display = "block";
         this.enemies.pause();

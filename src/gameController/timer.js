@@ -11,12 +11,13 @@ export default class Timer {
     }
 
     start() {
-        if (this.paused) {
-            // If the timer is paused, do not start a new interval
-            return;
+        if (this.timerInterval) {
+            clearInterval(this.timerInterval); //ensures only one timer runs
         }
 
         this.updateDisplay();
+        this.paused = false;
+
         this.timerInterval = setInterval(() => {
             this.remainingTime -= TIMER.INTERVAL; 
 
@@ -32,20 +33,13 @@ export default class Timer {
             } else {
                 this.updateDisplay();
             }
-        }, 100); 
+        }, TIMER.INTERVAL); 
     }
 
     stop() {
         clearInterval(this.timerInterval);
         this.timerInterval = null;
-    }
-
-    pause() {
-        if (!this.paused) {
-            clearInterval(this.timerInterval);
-            this.timerInterval = null;
-            this.paused = true;
-        }
+        this.paused = true;
     }
 
     resume() {
@@ -64,6 +58,7 @@ export default class Timer {
     reset() {
         this.stop();
         this.remainingTime = this.initialTime * 1000;
+        this.paused = false;
         this.updateDisplay();
     }
 }

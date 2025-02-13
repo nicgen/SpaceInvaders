@@ -56,6 +56,7 @@ body{
 }
 
 .ship {
+    max-width: 30px;
     background-color: rgb(50, 223, 87);
     position: absolute;
     bottom: 1px;

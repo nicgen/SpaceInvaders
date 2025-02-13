@@ -6,7 +6,7 @@ import FPSManager from './FPSManager.js';
 import EnemyFormation from '../objects/enemyFormation.js'
 import { GAME, SHIP, BEAM, ENEMY } from '../utils/constants.js';
 import LifeManager from './life.js';
-
+import Timer from '../utils/timer.js'
 
 export default class Game {
     constructor() {
@@ -17,6 +17,10 @@ export default class Game {
 
         this.fpsManager = new FPSManager(); // Initialize FPS Manager
         this.gameContainer = document.getElementById('game-container');
+
+        // TIMER
+        this.timer = new Timer("timer", 30, (state) => this.gameOver(state));
+        // this.timer = new Timer("timer", 30); // Create a timer for 30 seconds
 
         //backgroundmusic
         this.backGroundMusic = document.getElementById("backGroundMusic");
@@ -81,6 +85,8 @@ export default class Game {
         this.running = true;
         this.score = 0;
 
+        this.timer.start();
+
         this.backGroundMusic.play();
 
         this.enemies.resume();
@@ -131,6 +137,8 @@ export default class Game {
     restartGame() {
         this.pauseMenu.style.display = "none";
         this.gameOverScreen.style.display = "none";
+
+        this.timer.start();
 
         this.stateManager.resetGame();
         this.running = false;
@@ -197,6 +205,7 @@ export default class Game {
 
     pauseGame() {
         this.running = false;  // Stop game loop
+        this.timer.pause();
         this.stateManager.setPaused();
         this.pauseMenu.style.display = "block";
         this.enemies.pause();
@@ -209,6 +218,7 @@ export default class Game {
 
     resumeGame() {
         this.running = true;  // Continue game loop
+        this.timer.resume();
         this.stateManager.setRunning();
         this.pauseMenu.style.display = "none";
         this.enemies.resume();
@@ -219,23 +229,10 @@ export default class Game {
         this.gameLoop(performance.now());
     }
 
-    // gameOver(state = null) {
-    //     console.log("gameOver", state);
-    //     this.running = false;
-    //     // this.stateManager.setPaused();
-    //     this.stateManager.setGameOver();
-    //     this.enemies.pause();
-    //
-    //
-    //
-    //     this.gameOverScreen.style.display = "block";
-    //     cancelAnimationFrame(this.animationFrameRequest);
-    //     // document.getElementById("finalScore").textContent = `Score: ${this.score}`;
-    // }
-
     gameOver(state = null) {
         // console.log("gameOver", state);
         this.running = false;
+        this.timer.stop();
         this.stateManager.setGameOver();
         this.enemies.pause();
 
@@ -251,17 +248,6 @@ export default class Game {
         cancelAnimationFrame(this.animationFrameRequest);
         // document.getElementById("finalScore").textContent = `Score: ${this.score}`;
     }
-
-    // check game state
-    // checkGameState() {
-    //     if (playerHasWon) {
-    //         // Call the game over callback with 'win'
-    //         this.gameOver('win');
-    //     } else if (this.lifeManager.lives <= 0) {
-    //         // Call the loseLife method which will handle the game over
-    //         this.lifeManager.loseLife();
-    //     }
-    // }
 
     checkCollisions() {
         // Beam to EnemyFormation Collisions
@@ -319,4 +305,5 @@ export default class Game {
             r1.left > r2.right
         );
     }
+
 }

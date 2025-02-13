@@ -44,7 +44,14 @@ export default class EnemyFormation {
     }
 
     update() {
+        if (this.enemies.length === 0) {
+
+            console.log('NO ENEMIES')
+        }
+
         if (this.paused) return;
+
+        console.log(`[ENEMIES] ${this.enemies}`)
 
         let moveDown = false;
         this.enemies.forEach((enemy) => {

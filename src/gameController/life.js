@@ -27,12 +27,16 @@ export default class LifeManager {
         } else {
             this.lives = 0;
             this.updateLivesDisplay();
-            this.gameOverCallback();
+            // game over callback with 'loose'
+            if (this.gameOverCallback) {
+                this.gameOverCallback('loose');
+            }
         }
     }
 
     setGameOverCallback(callback) {
-        this.gameOverCallback = callback;    
+        console.log("setGameOverCallback", callback);
+        this.gameOverCallback = callback;
     }
 
     adjustScoreboardFontSize() {

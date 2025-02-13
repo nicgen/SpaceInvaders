@@ -45,7 +45,7 @@ export default class Enemy {
         const randomInterval = Math.random() * (5000 - 2000) + 2000;
 
         this.shootingInterval = setInterval(() => {
-            if (this.canShoot && Math.random() < 0.3) { // 30% chance to shoot
+            if (this.canShoot && Math.random() < 0.8) { // 30% chance to shoot
                 this.shoot();
             }
         }, randomInterval);

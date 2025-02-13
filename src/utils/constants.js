@@ -35,14 +35,14 @@ export const BEAM = {
 };
 
 export const ENEMY = {
-    // get WIDTH() {
-    //     return GAME.WIDTH * 0.06;
-    // },
-    // get HEIGHT() {
-    //     return GAME.HEIGHT * 0.06;
-    // },
-    WIDTH: 60,
-    HEIGHT: 60,
+    get WIDTH() {
+        return GAME.WIDTH * 0.06;
+    },
+    get HEIGHT() {
+        return GAME.HEIGHT * 0.06;
+    },
+    // WIDTH: 60,
+    // HEIGHT: 60,
     SPEED: 3,
     ROWS: 3,
     COLS: 2,

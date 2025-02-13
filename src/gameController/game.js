@@ -13,6 +13,8 @@ export default class Game {
         this.stateManager = new StateManager();
         this.running = false;
         this.score = 0;
+        this.scoreContainer = document.getElementById('score');
+
         this.fpsManager = new FPSManager(); // Initialize FPS Manager
         this.gameContainer = document.getElementById('game-container');
 
@@ -53,7 +55,8 @@ export default class Game {
 
         //lifeManager
         this.lifeManager = new LifeManager(3);
-        this.lifeManager.setGameOverCallback(() => this.gameOver());
+        // this.lifeManager.setGameOverCallback(() => this.gameOver());
+        this.lifeManager.setGameOverCallback((state) => this.gameOver(state));
 
         window.addEventListener("keydown", (e) => {
             if (e.key === "Escape") {
@@ -216,16 +219,49 @@ export default class Game {
         this.gameLoop(performance.now());
     }
 
-    gameOver() {
+    // gameOver(state = null) {
+    //     console.log("gameOver", state);
+    //     this.running = false;
+    //     // this.stateManager.setPaused();
+    //     this.stateManager.setGameOver();
+    //     this.enemies.pause();
+    //
+    //
+    //
+    //     this.gameOverScreen.style.display = "block";
+    //     cancelAnimationFrame(this.animationFrameRequest);
+    //     // document.getElementById("finalScore").textContent = `Score: ${this.score}`;
+    // }
+
+    gameOver(state = null) {
+        // console.log("gameOver", state);
         this.running = false;
-        // this.stateManager.setPaused();
         this.stateManager.setGameOver();
         this.enemies.pause();
 
+        // Display the game over screen
         this.gameOverScreen.style.display = "block";
+
+        if (state === 'win') {
+            console.log(`You won!`);
+        } else if (state === 'loose') {
+            console.log(`You loose!`);
+        }
+
         cancelAnimationFrame(this.animationFrameRequest);
         // document.getElementById("finalScore").textContent = `Score: ${this.score}`;
     }
+
+    // check game state
+    // checkGameState() {
+    //     if (playerHasWon) {
+    //         // Call the game over callback with 'win'
+    //         this.gameOver('win');
+    //     } else if (this.lifeManager.lives <= 0) {
+    //         // Call the loseLife method which will handle the game over
+    //         this.lifeManager.loseLife();
+    //     }
+    // }
 
     checkCollisions() {
         // Beam to EnemyFormation Collisions
@@ -242,6 +278,7 @@ export default class Game {
 
                     // Increment score
                     this.score += 10;
+                    this.scoreContainer.textContent = `Score: ${this.score}`;
                 }
             });
         });

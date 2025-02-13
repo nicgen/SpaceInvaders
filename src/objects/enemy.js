@@ -89,5 +89,14 @@ export default class Enemy {
         // Clear any active beams
         this.beams.forEach(beam => beam.remove());
         this.beams = [];
-    }
+
+        // Remove beams from the global tracking system (if necessary)
+        if (window.game) {
+            window.game.enemyBeams = window.game.enemyBeams.filter(b => !this.beams.includes(b));
+            }
+
+        if (window.game) {
+            window.game.score += SCORE.ENEMY_HIT;
+            }
+        }
 }

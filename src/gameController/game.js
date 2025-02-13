@@ -55,6 +55,7 @@ export default class Game {
 
         // add enemy formation
         this.enemies = new EnemyFormation(this.gameContainer);
+        this.enemyBeams = [];
         this.enemies.pause();
 
         //lifeManager
@@ -179,18 +180,22 @@ export default class Game {
     }
 
     updateGame() {
-        // console.log(`[ENEMIES]: ${this.enemies.enemyWidth}/${this.enemies.update}`)
         this.beams.forEach((beam, index) => {
-
-            // this.enemies.checkCollisions(beam);
-
             beam.update();
             
             if (!beam.beam.parentElement) {
                 this.beams.splice(index, 1);
             }
         });
-        // Add collision check
+        
+        // Ensure enemyBeams exists before updating
+        if (this.enemyBeams) {
+            this.enemyBeams = this.enemyBeams.filter(beam => {
+                beam.update();
+                return beam.beam.parentElement !== null;
+            });
+        }
+
         this.checkCollisions();
     }
 

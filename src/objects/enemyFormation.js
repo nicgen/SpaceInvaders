@@ -77,8 +77,6 @@ export default class EnemyFormation {
 
         if (this.paused) return;
 
-        console.log(`[ENEMIES] ${this.enemies}`)
-
         let moveDown = false;
 
         this.enemies.forEach((enemy) => {

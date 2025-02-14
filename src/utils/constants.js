@@ -50,7 +50,7 @@ export const ENEMY = {
     ROWS: 3,
     COLS: 2,
     SPACING: 20,
-    COLOR: 'red'
+    COLOR: '',
 };
 
 export const ENEMY_FORMATION = {

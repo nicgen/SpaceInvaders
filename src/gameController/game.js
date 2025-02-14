@@ -182,18 +182,17 @@ export default class Game {
     }
 
     updateGame() {
-        this.beams.forEach((beam, index) => {
+        // Update player beams
+        this.beams = this.beams.filter(beam => {
             beam.update();
-            if (!beam.beam.parentElement) {
-                this.beams.splice(index, 1);
-            }
+            return beam.beam.parentElement !== null;  // Remove if it's no longer in the DOM
         });
-        
+
         // Ensure enemyBeams exists before updating
         if (this.enemyBeams) {
             this.enemyBeams = this.enemyBeams.filter(beam => {
                 beam.update();
-                return beam.beam.parentElement !== null;
+                return beam.beam.parentElement !== null;  // Remove if it's no longer in the DOM
             });
         }
         this.checkCollisions();
@@ -283,10 +282,10 @@ export default class Game {
             }
 
             // Check enemy beams collision with player
-            enemy.beams.forEach((beam, beamIndex) => {
+            this.enemyBeams.forEach((beam, beamIndex) => {
                 if (this.isColliding(beam.beam, this.ship.ship)) {
                     beam.remove();
-                    enemy.beams.splice(beamIndex, 1);
+                    this.enemyBeams.splice(beamIndex, 1);
                     this.lifeManager.loseLife();
                 }
             });

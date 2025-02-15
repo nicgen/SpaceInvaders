@@ -7,36 +7,40 @@ import EnemyFormation from '../objects/enemyFormation.js'
 import { GAME, SHIP, ENEMY_FORMATION, ENEMY } from '../utils/constants.js';
 import LifeManager from './life.js';
 import Timer from './timer.js';
+import { createPixiApp } from '../animation/pixiSetup.js';
+import { playIntroAnimation } from '../animation/gameAnimations/introductionAnimation.js';
 
 export default class Game {
     constructor() {
+        // First, get DOM elements
+        this.gameContainer = document.getElementById('game-container');
+        this.scoreContainer = document.getElementById('score');
+        this.backGroundMusic = document.getElementById("backGroundMusic");
+        
+        // Then initialize PIXI
+        this.app = null;
+        
+        // Initialize managers
         this.stateManager = new StateManager();
+        this.fpsManager = new FPSManager();
+        this.timer = new Timer("timer", 30, (state) => this.gameOver(state));
+        
+        // Set up game state
         this.running = false;
         this.score = 0;
-        this.scoreContainer = document.getElementById('score');
-
-        this.fpsManager = new FPSManager(); // Initialize FPS Manager
-        this.gameContainer = document.getElementById('game-container');
-
-        // TIMER
-        this.timer = new Timer("timer", 30, (state) => this.gameOver(state));
-        // this.timer = new Timer("timer", 30); // Create a timer for 30 seconds
-
-        //backgroundmusic
-        this.backGroundMusic = document.getElementById("backGroundMusic");
+        
+        // Audio setup
         this.backGroundMusic.volume = 0.2;
-        // this.backGroundMusic.play(); // removed since it triggers an error in the browser
-
-        //shootingSound
         this.shootSound = new Audio('../../sound/laser-gun.mp3');
         this.shootSound.volume = 0.08;
-
+        
+        // Game objects initialization
         this.inputHandler = new InputHandler();
         this.ship = new Ship(this.gameContainer, this, this.shootSound);
         this.beams = [];
         this.enemyBeams = [];
-        window.game = this;
-
+        
+        // Create UI elements
         this.menuScreen = createMenu(() => this.startGame());
         this.pauseMenu = createPauseMenu(
             () => this.resumeGame(),
@@ -47,27 +51,44 @@ export default class Game {
             () => this.restartGame(),
             () => window.location.reload()
         );
-        this.menuScreen.style.display = "block"; // Initially show the menu
+        
+        // Show initial menu
+        this.menuScreen.style.display = "none";
+        
+        this.init();
+    }
 
-        // A reference to the animation frame request (used to stop it during pause)
-        this.animationFrameRequest = null;
+    // Async init method to initialize PixiJS and other game objects
+    async init() {
+        this.app = await createPixiApp(); // Wait for the PixiJS app to initialize
 
-        // add enemy formation
+        // Play intro animation, and once it finishes, show the menu screen
+        playIntroAnimation(this.app, () => {
+            this.startGameAfterIntro(); // Callback to start the game after the intro animation
+        });
+    }
+
+    // This function initializes the game and starts the game loop after intro animation
+    startGameAfterIntro() {
+        // Initialize all game settings
         this.selectedSkin = localStorage.getItem("enemySkin") || "default";
         this.enemies = new EnemyFormation(this.gameContainer, ENEMY_FORMATION.V_SHAPE, this.getEnemySkin());
         this.enemies.pause();
 
-        //lifeManager
         this.lifeManager = new LifeManager(3);
-        // this.lifeManager.setGameOverCallback(() => this.gameOver());
         this.lifeManager.setGameOverCallback((state) => this.gameOver(state));
 
+        // Event listeners
         window.addEventListener("keydown", (e) => {
             if (e.key === "Escape") {
                 this.handlePauseResume();
             }
         });
 
+        // Show the menu screen after intro animation is finished
+        this.menuScreen.style.display = "block";
+
+        // Start the game loop
         this.gameLoop(performance.now());
     }
 

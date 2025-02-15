@@ -24,11 +24,11 @@ export const SHIP = {
     COLOR: 'rgb(50, 223, 87)',
     SHOOT_COOLDOWN: 300,
     SKINS: {
-        default : "../../img/VirginSpaceShipDelta.svg" ,
-        type1: "../../img/ship.svg",
-        type2: "../../img/VirginGalacticShip1.svg",
-        type3: "../../img/VirginGalacticShip.svg",
-        type4: "../../img/BlueOriginSpaceShip.svg"
+        default : "../../img/spaceShips/VirginSpaceShipDelta.svg" ,
+        type1: "../../img/spaceShips/ship.svg",
+        type2: "../../img/spaceShips/VirginGalacticShip1.svg",
+        type3: "../../img/spaceShips/VirginGalacticShip.svg",
+        type4: "../../img/spaceShips/BlueOriginSpaceShip.svg"
     }
 };
 
@@ -54,15 +54,13 @@ export const ENEMY = {
         return GAME.HEIGHT * 0.04;
     },
     SPEED: 20,
-    ROWS: 3,
-    COLS: 2,
     SPACING: 20,
     COLOR: '',
     SKINS: {
-        default: "../../img/teslaAstronaut.svg",
-        astronaut1: "../../img/elon-musk.svg",
-        astronaut2: "../../img/astronaut2.svg",
-        teslaAstronauts: "../../img/astronaut.svg",
+        default: "../../img/spaceShips/teslaAstronaut.svg",
+        astronaut1: "../../img/spaceShips/elon-musk.svg",
+        astronaut2: "../../img/spaceShips/astronaut2.svg",
+        teslaAstronauts: "../../img/spaceShips/astronaut.svg",
     }
 };
 
@@ -73,8 +71,8 @@ export const ENEMY_FORMATION = {
         SPACING: 50,
     },
     V_SHAPE: {
-        ROWS: 3,
-        COLS: 6,
+        ROWS: 4,
+        COLS: 7,
         SPACING: 50,
     },
     LINE: {

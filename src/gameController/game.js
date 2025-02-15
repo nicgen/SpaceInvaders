@@ -4,7 +4,7 @@ import Ship  from '../objects/player.js';
 import InputHandler from '../utils/inputHandler.js';
 import FPSManager from './FPSManager.js';
 import EnemyFormation from '../objects/enemyFormation.js'
-import { GAME, SHIP, ENEMY_FORMATION } from '../utils/constants.js';
+import { GAME, SHIP, ENEMY_FORMATION, ENEMY } from '../utils/constants.js';
 import LifeManager from './life.js';
 import Timer from './timer.js';
 
@@ -53,7 +53,8 @@ export default class Game {
         this.animationFrameRequest = null;
 
         // add enemy formation
-        this.enemies = new EnemyFormation(this.gameContainer, ENEMY_FORMATION.V_SHAPE);
+        this.selectedSkin = localStorage.getItem("enemySkin") || "default";
+        this.enemies = new EnemyFormation(this.gameContainer, ENEMY_FORMATION.V_SHAPE, this.getEnemySkin());
         this.enemies.pause();
 
         //lifeManager
@@ -305,6 +306,10 @@ export default class Game {
             r1.right < r2.left ||
             r1.left > r2.right
         );
+    }
+
+    getEnemySkin() {
+        return ENEMY.SKINS[this.selectedSkin] || ENEMY.SKINS.default;
     }
 
 }

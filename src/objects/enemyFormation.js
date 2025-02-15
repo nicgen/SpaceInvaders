@@ -2,13 +2,14 @@ import { ENEMY, ENEMY_BEHAVIOR, ENEMY_FORMATION } from '../utils/constants.js';
 import Enemy from './enemy.js';
 
 export default class EnemyFormation {
-    constructor(container, formationType = ENEMY_FORMATION.GRID) {
+    constructor(container, formationType = ENEMY_FORMATION.GRID, skinType = 'default') {
         this.container = container;
         this.enemies = [];
         this.formationType = formationType;
         this.formation = formationType;
-        const formationConfig = formationType || ENEMY_FORMATION.GRID;
+        this.skinType = skinType;
 
+        const formationConfig = formationType || ENEMY_FORMATION.GRID;
         this.rows =formationConfig.ROWS || ENEMY.ROWS;
         this.cols = formationConfig.COLS || ENEMY.COLS;
         this.spacing = formationConfig.SPACING || ENEMY.SPACING;
@@ -21,7 +22,6 @@ export default class EnemyFormation {
         this.paused = false;
 
         this.createEnemies();
-        this.startMoving();
 
         window.addEventListener('resize', () => this.updateEnemyDimensions());
     }
@@ -54,6 +54,7 @@ export default class EnemyFormation {
                 this.enemies.push(enemy);
             }
         }
+        this.startMoving();
     }
 
     updateEnemyDimensions() {
@@ -64,6 +65,7 @@ export default class EnemyFormation {
     }
 
     startMoving() {
+        if (this.enemies.length === 0) return;
         setInterval(() => {
             this.update();
         }, ENEMY_BEHAVIOR.MOVEMENT_SPEED_INTERVAL);

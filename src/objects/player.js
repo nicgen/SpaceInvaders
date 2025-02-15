@@ -2,13 +2,14 @@ import { SHIP, GAME } from "../utils/constants.js";
 import Beam from "./projectile.js";
 
 export default class Ship {                                               /*creation de de notre vaisseau qu'on viens mettre dans container(game-container)*/
-        constructor(gameContainer, game, shootSound) {
+        constructor(gameContainer, game, shootSound, shipType = 'default') {
             this.container = gameContainer;
             this.game = game;
 
             //Create the svg ship
+            const shipSkinPath = SHIP.SKINS[shipType] || SHIP.SKINS['default'];
             this.ship = document.createElement("object");
-            this.ship.data = "../../img/ship.svg";
+            this.ship.data = shipSkinPath;
             this.ship.type = "image/svg+xml";
             this.ship.id = "ship";
             this.ship.style.position = "absolute";

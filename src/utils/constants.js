@@ -15,7 +15,7 @@ export const GAME = {
 
 export const SHIP = {
     get WIDTH() {
-        return GAME.WIDTH * 0.15;
+        return GAME.WIDTH * 0.10;
     },
     get HEIGHT() {
         return GAME.HEIGHT * 0.12;
@@ -23,11 +23,18 @@ export const SHIP = {
     SPEED:8 ,
     COLOR: 'rgb(50, 223, 87)',
     SHOOT_COOLDOWN: 300,
+    SKINS: {
+        default : "../../img/VirginSpaceShipDelta.svg" ,
+        type1: "../../img/ship.svg",
+        type2: "../../img/VirginGalacticShip1.svg",
+        type3: "../../img/VirginGalacticShip.svg",
+        type4: "../../img/BlueOriginSpaceShip.svg"
+    }
 };
 
 export const BEAM = {
-    WIDTH: 5,
-    HEIGHT: 15,
+    WIDTH: 3,
+    HEIGHT: 10,
     COLOR: 'red',
     VELOCITY: {
         X: 0,
@@ -41,16 +48,22 @@ export const BEAM = {
 
 export const ENEMY = {
     get WIDTH() {
-        return GAME.WIDTH * 0.06;
+        return GAME.WIDTH * 0.04;
     },
     get HEIGHT() {
-        return GAME.HEIGHT * 0.06;
+        return GAME.HEIGHT * 0.04;
     },
-    SPEED: 3,
+    SPEED: 20,
     ROWS: 3,
     COLS: 2,
     SPACING: 20,
     COLOR: '',
+    SKINS: {
+        default: "../../img/teslaAstronaut.svg",
+        astronaut1: "../../img/elon-musk.svg",
+        astronaut2: "../../img/astronaut2.svg",
+        teslaAstronauts: "../../img/astronaut.svg",
+    }
 };
 
 export const ENEMY_FORMATION = {
@@ -60,8 +73,8 @@ export const ENEMY_FORMATION = {
         SPACING: 50,
     },
     V_SHAPE: {
-        ROWS: 5,
-        COLS: 10,
+        ROWS: 3,
+        COLS: 6,
         SPACING: 50,
     },
     LINE: {
@@ -77,7 +90,7 @@ export const ENEMY_BEHAVIOR = {
     SHOOT_PROBABILITY: 0.3,
     SHOOT_COOLDOWN: 1000,
     MOVEMENT_SPEED: 3,
-    MOVEMENT_SPEED_INTERVAL: 1000,
+    MOVEMENT_SPEED_INTERVAL: 200,
     MOVE_INTERVAL: 15,
 };
 

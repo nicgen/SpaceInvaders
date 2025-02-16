@@ -48,10 +48,10 @@ export const BEAM = {
 
 export const ENEMY = {
     get WIDTH() {
-        return GAME.WIDTH * 0.08;
+        return GAME.WIDTH * 0.06;
     },
     get HEIGHT() {
-        return GAME.HEIGHT * 0.08;
+        return GAME.HEIGHT * 0.06;
     },
     SPEED: 20,
     ROWS: 3,

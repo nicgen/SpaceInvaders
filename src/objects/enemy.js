@@ -2,7 +2,7 @@ import {ENEMY, ENEMY_BEHAVIOR, SCORE} from "../utils/constants.js";
 import Beam from "./projectile.js";
 
 export default class Enemy {
-    constructor(container, row, col, formation, x, y) {
+    constructor(container, row, col, formation, x, y, skinType = 'default') {
         this.container = container;
         this.formation = formation;
         this.row = row;
@@ -11,6 +11,7 @@ export default class Enemy {
         this.y = y;
 
         // Create the enemy element
+        this.skin = ENEMY.SKINS[skinType] || ENEMY.SKINS['default'];
         this.element = document.createElement("div");
         this.element.classList.add("enemy");
 
@@ -30,6 +31,9 @@ export default class Enemy {
         this.element.style.height = `${ENEMY.HEIGHT}px`;
         this.element.style.left = `${this.x}px`;
         this.element.style.top = `${this.y}px`;
+
+        this.element.style.backgroundImage = `url(${this.skin})`;
+        this.element.style.backgroundSize = "cover";
 
         this.container.appendChild(this.element);
     }

@@ -23,11 +23,18 @@ export const SHIP = {
     SPEED:8 ,
     COLOR: 'rgb(50, 223, 87)',
     SHOOT_COOLDOWN: 300,
+    SKINS: {
+        default : "../../img/VirginGalacticShip.svg" ,
+        type1: "../../img/ship.svg",
+        type2: "../../img/VirginGalacticShip1.svg",
+        type3: "../../img/VirginGalacticShip.svg",
+        type4: "../../img/BlueOriginSpaceShip.svg"
+    }
 };
 
 export const BEAM = {
-    WIDTH: 5,
-    HEIGHT: 15,
+    WIDTH: 3,
+    HEIGHT: 10,
     COLOR: 'red',
     VELOCITY: {
         X: 0,
@@ -41,27 +48,34 @@ export const BEAM = {
 
 export const ENEMY = {
     get WIDTH() {
-        return GAME.WIDTH * 0.06;
+        return GAME.WIDTH * 0.08;
     },
     get HEIGHT() {
-        return GAME.HEIGHT * 0.06;
+        return GAME.HEIGHT * 0.08;
     },
-    SPEED: 3,
+    SPEED: 20,
     ROWS: 3,
     COLS: 2,
     SPACING: 20,
     COLOR: '',
+    SKINS: {
+        default: "../../img/teslaAstronaut.svg",
+        type1: "../../img/enemy1.png",
+        type2: "../../img/enemy2.png",
+        type3: "../../img/enemy3.png",
+        type4: "../../img/enemy4.png"
+    }
 };
 
 export const ENEMY_FORMATION = {
     GRID: {
-        ROWS: 4,
+        ROWS: 3,
         COLS: 6,
         SPACING: 50,
     },
     V_SHAPE: {
-        ROWS: 5,
-        COLS: 10,
+        ROWS: 4,
+        COLS: 8,
         SPACING: 50,
     },
     LINE: {
@@ -69,6 +83,11 @@ export const ENEMY_FORMATION = {
         COLS: 10,
         SPACING: 50,
     },
+    SHOOT_PROBABILITY: 0.3,
+    SHOOT_COOLDOWN: 1000,
+    MOVEMENT_SPEED: 3,
+    MOVEMENT_SPEED_INTERVAL: 200,
+    MOVE_INTERVAL: 15
 };
 
 export const ENEMY_BEHAVIOR = {
@@ -123,7 +142,7 @@ export const MENU_STYLE = {
 };
 
 export const MENU_TITLES = {
-    start: "Mu$K F$king Invador",
+    start: "Mu$K Invador",
     paused: "Anihilation Paused",
     gameOver: "ThrustFund Empty",
 };

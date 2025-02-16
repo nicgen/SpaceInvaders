@@ -71,8 +71,6 @@ body{
 
 .enemy {
     position: absolute;
-    background-image: url('../img/elon-musk.png');
-    background-size: cover;
 }
 
 .enemy-beam {

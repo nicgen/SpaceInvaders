@@ -2,11 +2,12 @@ import { ENEMY, ENEMY_BEHAVIOR, ENEMY_FORMATION } from '../utils/constants.js';
 import Enemy from './enemy.js';
 
 export default class EnemyFormation {
-    constructor(container, formationType = ENEMY_FORMATION.GRID) {
+    constructor(container, formationType = ENEMY_FORMATION.GRID, skinType = 'default') {
         this.container = container;
         this.enemies = [];
         this.formationType = formationType;
         this.formation = formationType;
+        this.skinType = skinType;
         const formationConfig = formationType || ENEMY_FORMATION.GRID;
 
         this.rows =formationConfig.ROWS || ENEMY.ROWS;
@@ -54,9 +55,11 @@ export default class EnemyFormation {
                 this.enemies.push(enemy);
             }
         }
+        this.startMoving();
     }
 
     updateEnemyDimensions() {
+        if (this.enemies.length === 0) return;
         this.enemies.forEach((enemy) => {
             enemy.element.style.width = `${ENEMY.WIDTH}px`;
             enemy.element.style.height = `${ENEMY.HEIGHT}px`;

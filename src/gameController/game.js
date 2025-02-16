@@ -16,30 +16,24 @@ export default class Game {
         this.gameContainer = document.getElementById('game-container');
         this.scoreContainer = document.getElementById('score');
         this.backGroundMusic = document.getElementById("backGroundMusic");
-        
+
         // Then initialize PIXI
         this.app = null;
-        
+
         // Initialize managers
         this.stateManager = new StateManager();
         this.fpsManager = new FPSManager();
         this.timer = new Timer("timer", 30, (state) => this.gameOver(state));
-        
+
         // Set up game state
         this.running = false;
         this.score = 0;
-        
+
         // Audio setup
         this.backGroundMusic.volume = 0.2;
         this.shootSound = new Audio('../../sound/laser-gun.mp3');
         this.shootSound.volume = 0.08;
-        
-        // Game objects initialization
-        this.inputHandler = new InputHandler();
-        this.ship = new Ship(this.gameContainer, this, this.shootSound);
-        this.beams = [];
-        this.enemyBeams = [];
-        
+
         // Create UI elements
         this.menuScreen = createMenu(() => this.startGame());
         this.pauseMenu = createPauseMenu(
@@ -51,10 +45,10 @@ export default class Game {
             () => this.restartGame(),
             () => window.location.reload()
         );
-        
-        // Show initial menu
+
+        // Hide the menu initially
         this.menuScreen.style.display = "none";
-        
+
         this.init();
     }
 
@@ -70,25 +64,34 @@ export default class Game {
 
     // This function initializes the game and starts the game loop after intro animation
     startGameAfterIntro() {
-        // Initialize all game settings
-        this.selectedSkin = localStorage.getItem("enemySkin") || "default";
-        this.enemies = new EnemyFormation(this.gameContainer, ENEMY_FORMATION.V_SHAPE, this.getEnemySkin());
-        this.enemies.pause();
+        console.log("Intro animation finished. Initializing game objects...");
 
+        // Initialize all game objects AFTER the intro animation
+        this.inputHandler = new InputHandler();
+        this.selectedSkin = localStorage.getItem("enemySkin") || "default";
+
+        // Initialize the ship after the intro animation
+        this.ship = new Ship(this.gameContainer, this, this.shootSound);
+
+        // Initialize enemies after the intro animation
+        this.enemies = new EnemyFormation(this.gameContainer, ENEMY_FORMATION.V_SHAPE, this.getEnemySkin());
+        this.enemies.pause(); // Keep enemies paused until game starts
+
+        // Initialize life manager
         this.lifeManager = new LifeManager(3);
         this.lifeManager.setGameOverCallback((state) => this.gameOver(state));
 
-        // Event listeners
+        // Add event listeners for pausing/resuming
         window.addEventListener("keydown", (e) => {
             if (e.key === "Escape") {
                 this.handlePauseResume();
             }
         });
 
-        // Show the menu screen after intro animation is finished
+        // Show the menu after the intro animation
         this.menuScreen.style.display = "block";
 
-        // Start the game loop
+        // Start the game loop (but game won't start until user clicks "Start")
         this.gameLoop(performance.now());
     }
 

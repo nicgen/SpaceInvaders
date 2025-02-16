@@ -44,15 +44,15 @@ export const PLANET_SCALE = {
 };
 
 export const PLANET_IMAGES = [
-    "../../img/planets/Barren.png",
-    "../../img/planets/Cloudy.png",
-    "../../img/planets/Glacial.png",
-    "../../img/planets/Lush.png",
-    "../../img/planets/Magma.png",
-    "../../img/planets/Muddy.png",
-    "../../img/planets/Oasis.png",
-    "../../img/planets/Ocean.png",
-    "../../img/planets/Rocky.png",
-    "../../img/planets/Tropical.png"
+    "/img/planets/Barren.png",
+    "/img/planets/Cloudy.png",
+    "/img/planets/Glacial.png",
+    "/img/planets/Lush.png",
+    "/img/planets/Magma.png",
+    "/img/planets/Muddy.png",
+    "/img/planets/Oasis.png",
+    "/img/planets/Ocean.png",
+    "/img/planets/Rocky.png",
+    "/img/planets/Tropical.png"
 ];
     

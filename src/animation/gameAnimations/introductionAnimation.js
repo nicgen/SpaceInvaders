@@ -1,13 +1,15 @@
 import { INTRO_TEXT, TEXT_STYLE, ANIMATION_TIMINGS, PLANET_IMAGES, PLANET_SCALE } from '../utils/animationConstants.js';
+import { GAME } from '../../utils/constants.js';
+
+const gameContainer = document.getElementById('game-container');
 export function playIntroAnimation(app) {
     const titleText = new PIXI.Text(INTRO_TEXT.TITLE, TEXT_STYLE);
-    titleText.x = app.renderer.width / 2;
-    titleText.y = app.renderer.height + 50;
     titleText.anchor.set(0.5);
+    titleText.position.set(GAME.WIDTH / 2, GAME.HEIGHT + 50);
     app.stage.addChild(titleText);
 
     gsap.to(titleText, {
-        y: 100,
+        y: -30,
         duration: ANIMATION_TIMINGS.TEXT_SCROLL_DURATION,
         ease: "power2.out",
         onComplete: () => {
@@ -20,33 +22,33 @@ export function playIntroAnimation(app) {
 
 function showStoryText(app) {
     const storyText = new PIXI.Text(INTRO_TEXT.STORY, TEXT_STYLE);
-    storyText.x = app.renderer.width / 2;
-    storyText.y = app.renderer.height + 50;
+    storyText.position.set(GAME.WIDTH / 2, GAME.HEIGHT + 250);
     storyText.anchor.set(0.5);
-    storyText.style.fontSize = 30;
+    storyText.style.fontSize = GAME.WIDTH * 0.03;
+    storyText.style.wordWrapWidth = GAME.WIDTH * 0.7;
     app.stage.addChild(storyText);
 
     gsap.to(storyText, {
-        y: 150,
-        duration: ANIMATION_TIMINGS.TEXT_SCROLL_DURATION * 1.5,
+        y: -200,
+        duration: ANIMATION_TIMINGS.TEXT_SCROLL_DURATION * 4,
         ease: "power2.out",
         onComplete: () => {
             setTimeout(() => {
                 app.stage.removeChild(storyText);
                 showPlanets(app);
-            }, 2000);
+            }, 100);
         }
     });
 }
 
 function showPlanets(app) {
-    const planetTextures = PLANET_IMAGES.map(imagePath => PIXI.Texture.from(imagePath)); //dynamic import od planet textures
+    const planetTextures = PLANET_IMAGES.map(imagePath => PIXI.Texture.from(imagePath)); //dynamic import planet textures
     const planets = [];
 
     planetTextures.forEach((texture, index) => {
         let planet = new PIXI.Sprite(texture);
-        planet.x = Math.random() * app.renderer.width;
-        planet.y = Math.random() * app.renderer.height;
+        planet.x = Math.random() * GAME.WIDTH;
+        planet.y = Math.random() * GAME.HEIGHT;
         planet.anchor.set(0.5);
         planet.alpha = 0;
         planet.scale.set(PLANET_SCALE.INITIAL);

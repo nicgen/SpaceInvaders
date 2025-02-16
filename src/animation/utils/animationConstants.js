@@ -1,11 +1,17 @@
+import { GAME } from '../../utils/constants.js';
+
 export const TEXT_STYLE = {
     fontFamily : "Arial",
-    fontSize: 50,
     fill : 0xffffff,
     fontWeight: "bold",
     align: "center",
     wordWrap: true,
-    wordWrapWidth: 800
+    get fontSize() {
+        return GAME.WIDTH * 0.08;
+    },
+    get wordWrapWidth() {
+        return GAME.WIDTH * 0.8;
+    }
 };
 
 export const INTRO_TEXT = {
@@ -22,15 +28,19 @@ export const INTRO_TEXT = {
 };
 
 export const ANIMATION_TIMINGS = {
-    TEXT_SCROLL_DURATION: 5,
+    TEXT_SCROLL_DURATION: 10,
     PLANET_FADE_IN_DURATION: 2,
     PLANET_FADE_IN_DELAY: 1,
     PLANET_ZOOM_DURATION: 4,
 };
 
 export const PLANET_SCALE = {
-    INITIAL: 0.5,
-    ZOOMED: 5
+    get INITIAL() {
+        return GAME.WIDTH * 0.0006;
+    },
+   get ZOOMED() {
+    return GAME.WIDTH * 0.004;
+   }
 };
 
 export const PLANET_IMAGES = [

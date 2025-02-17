@@ -1,0 +1,17 @@
+go mod init scoreboard
+go get github.com/gorilla/mux
+
+go run main.go
+
+JSON FILE
+```{
+
+  "scores": []
+}
+```
+
+// test write a score
+curl -X POST http://localhost:8080/api/scores -H "Content-Type: application/json" -d '{"name": "Alice", "score": 100, "time": "2023-10-01T12:00:00Z"}'
+
+// test read scores
+curl http://localhost:8080/api/scores

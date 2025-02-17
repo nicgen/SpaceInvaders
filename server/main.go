@@ -123,8 +123,14 @@ func (sb *Scoreboard) addScoreHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Invalid request body", http.StatusBadRequest)
 		return
 	}
+	//
+	//if err := sb.addScore(score); err != nil {
+	//	http.Error(w, err.Error(), http.StatusBadRequest)
+	//	return
+	//}
 
 	if err := sb.addScore(score); err != nil {
+		log.Printf("Error adding score: %v", err) // Add this line
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
@@ -182,7 +188,7 @@ func main() {
 
 	// Apply global middleware
 	r.Use(loggingMiddleware)
-	r.Use(corsMiddleware)
+	//r.Use(corsMiddleware)
 	r.Use(securityHeaders) // Add security headers middleware
 	r.Use(rateLimit)       // Add rate limiting middleware
 

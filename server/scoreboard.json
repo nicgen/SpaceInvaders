@@ -1,0 +1,32 @@
+[
+  {
+    "name": "Nic",
+    "rank": 1,
+    "score": 999,
+    "time": "2023-10-01T12:01:00Z"
+  },
+  {
+    "name": "Player1",
+    "rank": 2,
+    "score": 100,
+    "time": "2023-10-01T12:00:00Z"
+  },
+  {
+    "name": "Player1",
+    "rank": 3,
+    "score": 100,
+    "time": "2023-10-01T12:01:00Z"
+  },
+  {
+    "name": "TestUser",
+    "rank": 4,
+    "score": 100,
+    "time": "2025-02-17T16:02:23Z"
+  },
+  {
+    "name": "TestUser",
+    "rank": 5,
+    "score": 100,
+    "time": "2025-02-17T16:04:51Z"
+  }
+]

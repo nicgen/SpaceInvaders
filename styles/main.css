@@ -36,8 +36,6 @@ body{
     display: flex;
     width: 110vmin;
     aspect-ratio: 1024 / 872;
-    /*width: 800px;*/
-    /*height: 600px;*/
     background-color: #111;
     position: relative;
     border: 2px solid white;
@@ -76,4 +74,9 @@ body{
 
 .enemy-beam {
     background-color: pink !important;
+}
+
+canvas {
+    aspect-ratio: unset;
+    overflow: hidden;
 }

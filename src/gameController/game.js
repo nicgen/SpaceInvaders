@@ -34,6 +34,10 @@ export default class Game {
         this.shootSound = new Audio('../../sound/laser-gun.mp3');
         this.shootSound.volume = 0.08;
 
+        //Beam initialization
+        this.beams = [];
+        this.enemyBeams = [];
+
         // Create UI elements
         this.menuScreen = createMenu(() => this.startGame());
         this.pauseMenu = createPauseMenu(
@@ -49,6 +53,12 @@ export default class Game {
         // Hide the menu initially
         this.menuScreen.style.display = "none";
 
+        window.addEventListener("keydown", (e) => {
+            if (e.key === "Escape") {
+                this.handlePauseResume();
+            }
+        });
+
         this.init();
     }
 
@@ -56,10 +66,21 @@ export default class Game {
     async init() {
         this.app = await createPixiApp(); // Wait for the PixiJS app to initialize
 
+        // Add event listener for window resize
+        window.addEventListener('resize', this.onResize.bind(this));
+
         // Play intro animation, and once it finishes, show the menu screen
         playIntroAnimation(this.app, () => {
             this.startGameAfterIntro(); // Callback to start the game after the intro animation
         });
+    }
+
+    onResize() {
+        // Resize the renderer to match the new window size
+        this.app.renderer.resize(GAME.WIDTH, GAME.HEIGHT);
+    
+        // You may want to adjust any UI elements that rely on the canvas size as well
+        this.adjustScoreboardFontSize();
     }
 
     // This function initializes the game and starts the game loop after intro animation
@@ -90,9 +111,6 @@ export default class Game {
 
         // Show the menu after the intro animation
         this.menuScreen.style.display = "block";
-
-        // Start the game loop (but game won't start until user clicks "Start")
-        this.gameLoop(performance.now());
     }
 
      handlePauseResume() {
@@ -112,7 +130,10 @@ export default class Game {
         this.timer.start();
 
         this.backGroundMusic.play();
-        this.enemies.resume();
+
+        if (this.enemies) {
+            this.enemies.resume();
+        }
 
         this.gameLoop(performance.now());
         this.adjustScoreboardFontSize();
@@ -166,11 +187,19 @@ export default class Game {
         this.running = false;
         this.score = 0;
 
+        // Destroy old ship and enemies before reinitializing
+        if (this.ship) this.ship.destroy(); 
+        if (this.enemies) this.enemies.clearEnemies();
+
         //clear beams/enemies
         this.beams.forEach(beam => beam.remove());
         this.beams = [];
         this.enemyBeams.forEach(beam => beam.remove());
         this.enemyBeams = [];
+
+        // Remove old elements from DOM
+        document.querySelectorAll(".enemy").forEach(e => e.remove());
+        document.querySelectorAll(".beam").forEach(b => b.remove());
 
         //reset ship
         this.ship.shipX = GAME.WIDTH / 2 - SHIP.WIDTH;
@@ -178,8 +207,7 @@ export default class Game {
         this.ship.render();
 
         //reset lifeManager
-        this.lifeManager.lives = 3;
-        this.lifeManager.updateLivesDisplay();
+        this.lifeManager.reset();
         this.lifeManager.setGameOverCallback(() => this.gameOver());
 
         //Reset enemies

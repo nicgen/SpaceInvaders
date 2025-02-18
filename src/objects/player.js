@@ -18,6 +18,7 @@ export default class Ship {                                               /*crea
             this.updateShipDimensions();
             this.setInitialPosition();
 
+            this.ship.color = SHIP.COLOR;
             this.ship.style.bottom = '1px';
 
             this.shipX = (GAME.WIDTH - SHIP.WIDTH) / 2;  /*positionnement de notre vaisseau au centre de notre container*/

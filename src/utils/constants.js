@@ -21,7 +21,7 @@ export const SHIP = {
         return GAME.HEIGHT * 0.12;
     },
     SPEED:8 ,
-    COLOR: 'rgb(50, 223, 87)',
+    COLOR: 'red',
     SHOOT_COOLDOWN: 300,
     SKINS: {
         default : "../../img/spaceShips/VirginSpaceShipDelta.svg" ,
